@@ -16,14 +16,14 @@ import com.ysl.materialjetpack.lifecycle.databus.LiveDataBus;
 public class LiveDataActivity extends AppCompatActivity {
 
     private NameViewModel model;
-    private TextView name;
+    private TextView tv_name;
     private int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_livedata);
-        name = findViewById(R.id.tv_name);
+        tv_name = findViewById(R.id.tv_name);
         model = new ViewModelProvider(this,
                 new ViewModelProvider.AndroidViewModelFactory(getApplication())
                 /*new NewInstanceFactory()*/
@@ -38,7 +38,7 @@ public class LiveDataActivity extends AppCompatActivity {
         Observer<String> observer = new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                name.setText(s);
+                tv_name.setText(s);
             }
         };
         model.getMutableLiveData().observe(this, observer);

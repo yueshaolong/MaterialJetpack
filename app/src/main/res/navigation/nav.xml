@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav"
+    app:startDestination="@id/goodsActivity">
+
+    <activity
+        android:id="@+id/goodsActivity"
+        android:name="com.ysl.materialjetpack.lifecycle.GoodsActivity"
+        android:label="GoodsActivity" />
+    <activity
+        android:id="@+id/nameActivity"
+        android:name="com.ysl.materialjetpack.livedata.NameActivity"
+        android:label="NameActivity" />
+</navigation>
