@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">MaterialJetpack</string>
+    <string name="notification_channel_id">a</string>
+    <string name="notification_title">b</string>
+    <string name="cancel_download">c</string>
 </resources>

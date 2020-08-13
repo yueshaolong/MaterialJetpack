@@ -11,15 +11,15 @@ import androidx.work.WorkerParameters;
 /**
  * 后台任务
  */
-public class MainWorkManager4 extends Worker {
+public class MainWork4 extends Worker {
 
-    public final static String TAG = MainWorkManager4.class.getSimpleName();
+    public final static String TAG = MainWork4.class.getSimpleName();
 
     private Context mContext;
     private WorkerParameters workerParams;
 
     // 有构造函数
-    public MainWorkManager4(@NonNull Context context, @NonNull WorkerParameters workerParams) {
+    public MainWork4(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
         this.mContext = context;
         this.workerParams = workerParams;
