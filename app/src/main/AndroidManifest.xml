@@ -30,6 +30,8 @@
         <activity android:name=".paging.fromdb.PagingDbActivity">
         </activity>
         <activity android:name=".workmanager.WorkActivity">
+        </activity>
+        <activity android:name=".shizhan.WanActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
