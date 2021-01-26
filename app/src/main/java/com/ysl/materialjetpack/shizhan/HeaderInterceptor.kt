@@ -13,7 +13,7 @@ class HeaderInterceptor : Interceptor {
         val requestUrl = url.url().toString()
         val newBuilder = request.newBuilder()
         if (!TextUtils.isEmpty(requestUrl) && !requestUrl.contains("login")) {
-            newBuilder.header("token", "AndroidApplication.getInstance().getUser().getToken()")
+            newBuilder.header("token", "")
         }
         return chain.proceed(newBuilder.build())
     }

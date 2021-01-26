@@ -22,11 +22,17 @@ class WanActivity : AppCompatActivity() {
 //                    .observe(this@WanActivity,
 //                            { t -> Log.d(tag, "onChanged: $t") })
         }
-        viewModel.banner.observe(this){
-            binding.tvUrl.text = it[0].imagePath
+//        viewModel.banner.observe(this){
+//            binding.tvUrl.text = it[0].imagePath
+//        }
+//        viewModel.banner.observe(this){
+//            binding.tvContent.text = it[0].title
+//        }
+        viewModel.progressLiveData.observe(this){
+            binding.tvUrl.text = "$it%"
         }
-        viewModel.banner.observe(this){
-            binding.tvContent.text = it[0].title
+        viewModel.body.observe(this){
+
         }
     }
 }

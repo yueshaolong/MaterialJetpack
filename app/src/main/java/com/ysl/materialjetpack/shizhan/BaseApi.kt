@@ -2,6 +2,7 @@ package com.ysl.materialjetpack.shizhan
 
 import com.ysl.materialjetpack.BuildConfig
 import okhttp3.OkHttpClient
+import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -9,7 +10,7 @@ import java.util.concurrent.TimeUnit
 
 class BaseApi {
     companion object {
-        fun <T> get(listener: ProgressListener?, clazz: Class<T>) : T{
+        fun <T,K> get(listener: ProgressListener?, clazz: Class<T>, clz : Class<K>) : T{
             val builder = OkHttpClient.Builder()
                     .connectTimeout(60, TimeUnit.SECONDS)
                     .readTimeout(60, TimeUnit.SECONDS)
@@ -29,10 +30,10 @@ class BaseApi {
                 builder.addInterceptor(loggingInterceptor)
             }
             return Retrofit.Builder()
-                    .baseUrl("https://www.wanandroid.com/")
+                    .baseUrl("http://39.104.137.131:9995/")
                     .client(builder.build())
-                    .addCallAdapterFactory(LiveDataCallAdapterFactory())
                     .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(LiveDataCallAdapterFactory(clz))
                     .build()
                     .create(clazz)
         }

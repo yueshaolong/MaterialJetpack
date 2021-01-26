@@ -1,5 +1,6 @@
 package com.ysl.materialjetpack.shizhan
 
+import android.util.Log
 import okhttp3.MediaType
 import okhttp3.ResponseBody
 import okio.*
@@ -30,7 +31,8 @@ class ProgressResponseBody(private val responseBody: ResponseBody?,
             override fun read(sink: Buffer, byteCount: Long): Long {
                 val bytesRead = super.read(sink, byteCount)
                 totalBytesRead += if (bytesRead != -1L) bytesRead else 0
-                progressListener?.onProgress((totalBytesRead * 1.0f / (responseBody?.contentLength() ?: 1) * 100).toInt())
+                Log.d("TAG", "read: $totalBytesRead   ${contentLength()}")
+                progressListener?.onProgress((totalBytesRead * 1.0f / /*(responseBody?.*/contentLength() /*?: 1)*/ * 100).toInt())
                 return bytesRead
             }
         }
