@@ -11,15 +11,15 @@ class ErrorInterceptor : Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
-        val url: HttpUrl = request.url()
-        val requestUrl: String = url.url().toString()
+        val url: HttpUrl = request.url
+        val requestUrl: String = url.toUrl().toString()
         val response: Response
         response = try {
             chain.proceed(request)
         } catch (e: Exception) {
             throw e
         }
-        val code = response.code()
+        val code = response.code
         Log.d("intercept", "请求响应的code:$code")
         if (code != 200 && !BuildConfig.DEBUG) { //正式环境时上报错误
 //            ErrorUtil.uploadError(requestUrl, code);

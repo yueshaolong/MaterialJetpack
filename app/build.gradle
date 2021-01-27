@@ -147,10 +147,16 @@ dependencies {
     kapt "androidx.hilt:hilt-compiler:$hilt_compiler_version"
     annotationProcessor "androidx.hilt:hilt-compiler:$hilt_compiler_version"
 
-    implementation "androidx.fragment:fragment-ktx:1.2.5"
-    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
-    implementation "com.squareup.retrofit2:retrofit:2.9.0"
-    implementation "com.squareup.okhttp3:logging-interceptor:3.11.0"
+    implementation 'androidx.fragment:fragment-ktx:1.2.5'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.7.2'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
+    implementation 'com.blankj:utilcode:1.25.0'
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+    implementation 'com.github.lygttpod:SuperTextView:2.4.2'
+    implementation 'com.github.bboylin:UniversalToast:v1.0.5'
 
 }

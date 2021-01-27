@@ -22,10 +22,10 @@ class ProgressRequestBody(private val requestBody: RequestBody,
         if (bufferedSink == null) {
             //包装
             val sk = sink(sink)
-            bufferedSink = Okio.buffer(sk)
+            bufferedSink = sk.buffer()
         }
         //写入
-        requestBody.writeTo(bufferedSink)
+        requestBody.writeTo(bufferedSink!!)
         //必须调用flush，否则最后一部分数据可能不会被写入
         bufferedSink!!.flush()
     }
