@@ -61,7 +61,10 @@ abstract class BaseActivity<T: ViewBinding, VB: BaseViewModel> : AppCompatActivi
             showToast(it)
         }
         vb.empty.observe(this){
-            showToast("kong")
+            showToast("暂无数据")
+        }
+        vb.loading.observe(this){
+            showToast("加载中...")
         }
     }
 

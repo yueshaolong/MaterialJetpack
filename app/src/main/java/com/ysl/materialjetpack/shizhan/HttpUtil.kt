@@ -27,6 +27,7 @@ class HttpUtil {
                     .client(builder.build())
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(LiveDataCallAdapterFactory())
+//                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build()
                     .create(clazz)
         }

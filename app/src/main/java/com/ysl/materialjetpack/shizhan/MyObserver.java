@@ -3,12 +3,13 @@ package com.ysl.materialjetpack.shizhan;
 import android.text.TextUtils;
 
 import io.reactivex.Observer;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 
 public abstract class MyObserver<T> implements Observer<T> {
 //    private static final Logger logger = Logger.getLogger("MyObserver");
-//    private CompositeDisposable compositeDisposable;
+    private CompositeDisposable compositeDisposable;
 
 //    public MyObserver(CompositeDisposable compositeDisposable) {
 //        this.compositeDisposable = compositeDisposable;

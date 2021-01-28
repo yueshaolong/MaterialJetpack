@@ -32,17 +32,17 @@ class WanActivity : BaseActivity<ActWanBinding, WanViewModel>() {
             binding.tvUrl.text = ""
             binding.tvContent.text = ""
             viewModel.loadData()
-            fileViewModel.getFile("a.apk", "1", "cache")
+//            fileViewModel.getFile("a.apk", "1", "cache")
         }
 //        doubleClick(binding.btnRequest, consumer = {
 //            viewModel.loadData()
 ////            viewModel.getFile("a.apk", "1", "cache")
 //        })
 
-        viewModel.banner.observe(this){
+        viewModel.banner?.observe(this){
             binding.tvUrl.text = it[0].imagePath
         }
-        viewModel.banner.observe(this){
+        viewModel.banner?.observe(this){
             binding.tvContent.text = it[0].title
         }
 

@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.util.Log
 import com.blankj.utilcode.util.AppUtils
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.ResponseBody
 import java.io.File
@@ -127,7 +128,7 @@ object FileUtil {
     @SuppressLint("CheckResult")
     fun download(file: File, listener: DownloadListener, observable: Observable<ResponseBody>){
         observable.subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe{ responseBody ->
                     val buf = ByteArray(2048)
                     var inputStream: InputStream = responseBody.byteStream()
