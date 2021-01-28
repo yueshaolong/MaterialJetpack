@@ -8,9 +8,8 @@ import android.os.Bundle
 import android.view.View
 import android.view.Window
 import android.view.inputmethod.InputMethodManager
-import android.widget.FrameLayout
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewbinding.ViewBinding
 import com.blankj.utilcode.util.KeyboardUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.ysl.materialjetpack.databinding.ActBaseBinding
@@ -18,13 +17,15 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import xyz.bboylin.universialtoast.UniversalToast
+import java.lang.reflect.Method
+import java.lang.reflect.ParameterizedType
+import java.lang.reflect.Type
 import java.util.concurrent.TimeUnit
 
-abstract class BaseActivity<T> : AppCompatActivity(),UICallBack {
-    private val tag = "BaseActivity"
-    private lateinit var binding: ActBaseBinding
-    private val viewModel : BaseViewModel<T> by viewModels()
-
+abstract class BaseActivity<T: ViewBinding, VB: BaseViewModel> : AppCompatActivity(),UICallBack {
+    lateinit var baseBinding: ActBaseBinding
+    lateinit var binding: T
+    lateinit var vb: VB
     protected lateinit var mActivity : Activity
     protected lateinit var imm : InputMethodManager
     protected lateinit var layoutView: View
@@ -34,24 +35,46 @@ abstract class BaseActivity<T> : AppCompatActivity(),UICallBack {
         mActivity = this
         imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         initVariables()
-        binding = ActBaseBinding.inflate(layoutInflater)
-        addContent()
-        setContentView(binding.root)
+        baseBinding = ActBaseBinding.inflate(layoutInflater)
+        layoutView = View.inflate(this, getLayoutId(), null)
+        baseBinding.flContent.addView(layoutView)
+        setContentView(baseBinding.root)
+        bindView()
         initViews(savedInstanceState)
         initEvent()
         requestPermission()
-    }
-    private fun addContent() {
-        layoutView = View.inflate(this, getLayoutId(), null)
-        val params = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT)
-        binding.flContent.addView(layoutView, params)
     }
     abstract fun initVariables()
     abstract fun getLayoutId(): Int
     abstract fun initViews(bundle: Bundle?)
     abstract fun initEvent()
 
+    override fun onStart() {
+        super.onStart()
+        baseBinding.layoutAppBar.ivBack.setOnClickListener{
+            finish()
+        }
+        baseBinding.layoutAppBar.ivRight2.setOnClickListener {
+            vb.message.postValue("dffd")
+        }
+        vb.message.observe(this){
+            showToast(it)
+        }
+        vb.empty.observe(this){
+            showToast("kong")
+        }
+    }
+
+    private fun bindView(){
+        val superclass: Type = javaClass.genericSuperclass
+        val aClass = (superclass as ParameterizedType).actualTypeArguments[0] as Class<*>
+        try {
+            val method: Method = aClass.getDeclaredMethod("bind", View::class.java)
+            binding = method.invoke(null, layoutView) as T
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
     protected fun openActivity(clazz: Class<Any>){
         startActivity(Intent(this, clazz))
     }
@@ -72,8 +95,8 @@ abstract class BaseActivity<T> : AppCompatActivity(),UICallBack {
     }
 
     override fun finish() {
-        super.finish()
         KeyboardUtils.hideSoftInput(this)
+        super.finish()
     }
 
     override fun onBackPressed() {

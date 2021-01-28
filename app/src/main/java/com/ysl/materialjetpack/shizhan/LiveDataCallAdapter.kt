@@ -17,7 +17,7 @@ class LiveDataCallAdapter<T>(private val responseType: Type) :CallAdapter<T, Liv
                 if (started.compareAndSet(false, true)) {//确保执行一次
                     call.enqueue(object : Callback<T> {
                         override fun onFailure(call: Call<T>, t: Throwable) {
-                            val value = ApiResponse<T>(null, -1, t.message ?: "") as T
+                            val value = Result<T>(null, -1, "error") as T
                             postValue(value)
                         }
 

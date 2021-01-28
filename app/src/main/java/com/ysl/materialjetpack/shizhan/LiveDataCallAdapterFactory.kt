@@ -12,7 +12,7 @@ class LiveDataCallAdapterFactory : CallAdapter.Factory() {
         //获取第一个泛型类型
         val observableType = getParameterUpperBound(0, returnType as ParameterizedType)
         val rawType = getRawType(observableType)
-        if (rawType != ApiResponse::class.java) {
+        if (rawType != Result::class.java) {
             throw IllegalArgumentException("type must be ApiResponse")
         }
         if (observableType !is ParameterizedType) {
