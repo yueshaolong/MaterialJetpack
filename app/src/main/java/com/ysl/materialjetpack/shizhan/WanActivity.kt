@@ -23,7 +23,7 @@ class WanActivity : BaseActivity<ActWanBinding, WanViewModel>() {
 
     override fun initViews(bundle: Bundle?) {
         binding.rv.layoutManager = LinearLayoutManager(this)
-        binding.rv.addItemDecoration(object : RecyclerViewSpacesItemDecoration(0, 5, 0, 5){})
+        binding.rv.addItemDecoration(object : RecyclerViewSpacesItemDecoration(0, 5, 0, 5) {})
     }
 
     override fun initEvent() {
@@ -34,12 +34,19 @@ class WanActivity : BaseActivity<ActWanBinding, WanViewModel>() {
             viewModel.loadData()
 //            fileViewModel.getFile("a.apk", "1", "cache")
         })
+        binding.srl.setOnRefreshListener {
+            viewModel.loadData()
+        }
+        binding.srl.setOnLoadMoreListener {
+
+        }
 
         viewModel.banner.observe(this){
             Log.d("TAG", "initEvent: ${it.size}")
+            binding.srl.finishRefresh(true)
             binding.tvUrl.text = it[0].imagePath
             binding.tvContent.text = it[0].title
-            binding.rv.adapter = object : BannerAdapter(it){}
+            binding.rv.adapter = object : BannerAdapter(this, it){}
 //                    object : BaseQuickAdapter<BannerVO, BaseViewHolder>(R.layout.banner_item, it as MutableList<BannerVO>?){
 //                override fun onItemViewHolderCreated(@NotNull viewHolder: BaseViewHolder, viewType: Int) {
 //                    // 绑定 view

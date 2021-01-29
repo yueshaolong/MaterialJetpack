@@ -1,16 +1,20 @@
 package com.ysl.materialjetpack.shizhan
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.ysl.materialjetpack.R
 import com.ysl.materialjetpack.databinding.BannerItemBinding
 
-open class BannerAdapter(private val dataList: List<BannerVO>)
+open class BannerAdapter(val context: Context,private val dataList: List<BannerVO>)
     : RecyclerView.Adapter<BannerAdapter.ViewHolder>(){
 
     inner class ViewHolder(mBinding: BannerItemBinding) : RecyclerView.ViewHolder(mBinding.root) {
         val tvUrl = mBinding.tvUrl
         val tvContent = mBinding.tvContent
+        val iv = mBinding.iv
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BannerAdapter.ViewHolder {
@@ -21,7 +25,13 @@ open class BannerAdapter(private val dataList: List<BannerVO>)
     override fun onBindViewHolder(holder: BannerAdapter.ViewHolder, position: Int) {
         val bannerVO = dataList[position]
         holder.tvUrl.text = bannerVO.url
-        holder.tvContent.text = bannerVO.desc
+        holder.tvContent.text = bannerVO.title
+        Glide.with(context)
+                .load(bannerVO.imagePath)
+                .placeholder(R.mipmap.ic_launcher)
+                .error(R.mipmap.ic_launcher)
+                .centerCrop()
+                .into(holder.iv)
     }
 
     override fun getItemCount(): Int = dataList.size
