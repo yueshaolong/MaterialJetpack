@@ -10,6 +10,7 @@ class FileViewModel(application: Application) : BaseViewModel(application) {
         private set
     var downloadFile : MutableLiveData<File> =  MutableLiveData()
         private set
+
     fun getFile(fileName: String, fileId: String, dirName: String){
         FileUtil.getFile(fileName, fileId, dirName,
                 object : FileUtil.GetFileListener {
@@ -20,14 +21,14 @@ class FileViewModel(application: Application) : BaseViewModel(application) {
                         message.postValue(e.message)
                     }
                     override fun download(file: File) {
-                        FileUtil.download(file, object :FileUtil.DownloadListener{
+                        download(file, object :FileUtil.DownloadListener{
                             override fun downloadFinish(file: File) {
                                 downloadFile.postValue(file)
                             }
                             override fun downloadError(e: Throwable) {
                                 message.postValue(e.message)
                             }
-                        }, HttpUtil.download("http://39.104.137.131:9995/",
+                        }, HttpUtil.getData("https://www.wanandroid.com/",
                                 object : ProgressListener {
                                     override fun onProgress(currentPercent: Int) {
                                         Log.d("tag", "onProgress: $currentPercent")
@@ -35,7 +36,7 @@ class FileViewModel(application: Application) : BaseViewModel(application) {
                                     }
                                     override val isDownload: Boolean
                                         get() = true
-                                }, WanApi::class.java).download())
+                                }, FileApi::class.java).download())
                     }
                 })
     }

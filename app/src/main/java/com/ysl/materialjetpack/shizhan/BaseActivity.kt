@@ -13,9 +13,7 @@ import androidx.viewbinding.ViewBinding
 import com.blankj.utilcode.util.KeyboardUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.ysl.materialjetpack.databinding.ActBaseBinding
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
-import io.reactivex.schedulers.Schedulers
 import xyz.bboylin.universialtoast.UniversalToast
 import java.lang.reflect.Method
 import java.lang.reflect.ParameterizedType
@@ -123,8 +121,11 @@ abstract class BaseActivity<T: ViewBinding, VB: BaseViewModel> : AppCompatActivi
     protected fun doubleClick(view: View, consumer: Consumer<in Any?>) {
         object : ViewClickObservable(view){}
                 .throttleFirst(2, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(consumer)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        vb.mDisposable.dispose()
     }
 }

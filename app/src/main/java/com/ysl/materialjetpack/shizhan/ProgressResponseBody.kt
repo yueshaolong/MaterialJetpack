@@ -19,7 +19,7 @@ class ProgressResponseBody(private val responseBody: ResponseBody?,
 
     override fun source(): BufferedSource {
         if (bufferedSource == null) {
-            bufferedSource = handleSource(responseBody!!.source()).buffer()
+            bufferedSource = Okio.buffer(handleSource(responseBody!!.source()))//handleSource(responseBody!!.source()).buffer()
         }
         return bufferedSource!!
     }

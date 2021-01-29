@@ -5,16 +5,16 @@ import okhttp3.RequestBody
 import okio.*
 import java.io.IOException
 
-class ProgressRequestBody(private val requestBody: RequestBody,
+class ProgressRequestBody(private val requestBody: RequestBody?,
                           private val progressListener: ProgressListener?) : RequestBody() {
     private var bufferedSink: BufferedSink? = null
     override fun contentType(): MediaType? {
-        return requestBody.contentType()
+        return requestBody?.contentType()
     }
 
     @Throws(IOException::class)
     override fun contentLength(): Long {
-        return requestBody.contentLength()
+        return requestBody!!.contentLength()
     }
 
     @Throws(IOException::class)
@@ -22,10 +22,10 @@ class ProgressRequestBody(private val requestBody: RequestBody,
         if (bufferedSink == null) {
             //包装
             val sk = sink(sink)
-            bufferedSink = sk.buffer()
+            bufferedSink = Okio.buffer(sk)
         }
         //写入
-        requestBody.writeTo(bufferedSink!!)
+        requestBody?.writeTo(bufferedSink!!)
         //必须调用flush，否则最后一部分数据可能不会被写入
         bufferedSink!!.flush()
     }
@@ -47,7 +47,7 @@ class ProgressRequestBody(private val requestBody: RequestBody,
                 //增加当前写入的字节数
                 bytesWritten += byteCount
                 //回调
-                progressListener?.onProgress((bytesWritten * 1.0f / requestBody.contentLength() * 100).toInt())
+                progressListener?.onProgress((bytesWritten * 1.0f / /*requestBody!!.*/contentLength() * 100).toInt())
             }
         }
     }

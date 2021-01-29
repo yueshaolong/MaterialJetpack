@@ -10,7 +10,7 @@ class DownloadInterceptor(private val downloadListener: ProgressListener?) : Int
         val request = chain.request()
         val response = chain.proceed(request)
         return response.newBuilder()
-                .body(ProgressResponseBody(response.body, downloadListener))
+                .body(ProgressResponseBody(response.body(), downloadListener))
                 .build()
     }
 }

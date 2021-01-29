@@ -9,8 +9,8 @@ class HeaderInterceptor : Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
-        val url = request.url
-        val requestUrl = url.toUrl().toString()
+        val url = request.url()
+        val requestUrl = url.toString()
         val newBuilder = request.newBuilder()
         if (!TextUtils.isEmpty(requestUrl) && !requestUrl.contains("login")) {
             newBuilder.header("token", "")

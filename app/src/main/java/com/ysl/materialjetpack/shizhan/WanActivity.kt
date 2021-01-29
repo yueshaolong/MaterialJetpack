@@ -3,8 +3,10 @@ package com.ysl.materialjetpack.shizhan
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ysl.materialjetpack.R
 import com.ysl.materialjetpack.databinding.ActWanBinding
+
 
 class WanActivity : BaseActivity<ActWanBinding, WanViewModel>() {
     private val tag = "WanActivity"
@@ -20,30 +22,40 @@ class WanActivity : BaseActivity<ActWanBinding, WanViewModel>() {
     }
 
     override fun initViews(bundle: Bundle?) {
-
+        binding.rv.layoutManager = LinearLayoutManager(this)
+        binding.rv.addItemDecoration(object : RecyclerViewSpacesItemDecoration(0, 5, 0, 5){})
     }
 
     override fun initEvent() {
         baseBinding.layoutAppBar.ivRight2.setOnClickListener{
             showToast("有图")
         }
-        binding.btnRequest.setOnClickListener {
-            Log.d(tag, "initEvent: 点击")
-            binding.tvUrl.text = ""
-            binding.tvContent.text = ""
+        doubleClick(binding.btnRequest, consumer = {
             viewModel.loadData()
 //            fileViewModel.getFile("a.apk", "1", "cache")
-        }
-//        doubleClick(binding.btnRequest, consumer = {
-//            viewModel.loadData()
-////            viewModel.getFile("a.apk", "1", "cache")
-//        })
+        })
 
-        viewModel.banner?.observe(this){
+        viewModel.banner.observe(this){
+            Log.d("TAG", "initEvent: ${it.size}")
             binding.tvUrl.text = it[0].imagePath
-        }
-        viewModel.banner?.observe(this){
             binding.tvContent.text = it[0].title
+            binding.rv.adapter = object : BannerAdapter(it){}
+//                    object : BaseQuickAdapter<BannerVO, BaseViewHolder>(R.layout.banner_item, it as MutableList<BannerVO>?){
+//                override fun onItemViewHolderCreated(@NotNull viewHolder: BaseViewHolder, viewType: Int) {
+//                    // 绑定 view
+//                    DataBindingUtil.bind<ViewDataBinding>(viewHolder.itemView)
+////                    BannerItemBinding.bind(viewHolder.itemView)
+//                }
+//                override fun convert(holder: BaseViewHolder, item: BannerVO) {
+//                    val binding: ViewDataBinding? = holder.getBinding()
+//                    binding.set item.url
+//                    binding.tvContent.text = item.desc
+//
+//                    doubleClick(holder.itemView){
+//                        showToast("点击条目${holder.adapterPosition}")
+//                    }
+//                }
+//            }
         }
 
         fileViewModel.progress.observe(this){
@@ -52,5 +64,6 @@ class WanActivity : BaseActivity<ActWanBinding, WanViewModel>() {
         fileViewModel.downloadFile.observe(this){
             binding.tvPath.text = it.absolutePath
         }
+
     }
 }

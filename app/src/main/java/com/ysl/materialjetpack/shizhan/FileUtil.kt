@@ -7,7 +7,9 @@ import android.text.TextUtils
 import android.util.Log
 import com.blankj.utilcode.util.AppUtils
 import io.reactivex.Observable
+import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.ResponseBody
 import java.io.File
@@ -129,42 +131,57 @@ object FileUtil {
     fun download(file: File, listener: DownloadListener, observable: Observable<ResponseBody>){
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe{ responseBody ->
-                    val buf = ByteArray(2048)
-                    var inputStream: InputStream = responseBody.byteStream()
-                    val outputStream = FileOutputStream(file)
-                    var len: Int
-                    try {
-                        inputStream = responseBody.byteStream()
-                        val total: Long = responseBody.contentLength()
-                        if (!file.exists()) {
-                            file.createNewFile()
-                        }
-                        var sum: Long = 0
-                        while (inputStream.read(buf).also { len = it } != -1) {
-                            outputStream.write(buf, 0, len)
-                            sum += len.toLong()
-                            val progress = (sum * 1.0f / total * 100).toInt()
-                            Log.d("------?", "写入缓存文件${file.getName()}进度: $progress")
-                        }
-                        outputStream.flush()
-                        Log.d("------?", "文件下载成功,准备展示文件。")
-                        listener.downloadFinish(file)
-                    } catch (e: Exception) {
-                        Log.d("------?", "文件下载异常 = $e")
-                        listener.downloadError(e)
-                    } finally {
+                .subscribe( object : Observer<ResponseBody>{
+                    override fun onSubscribe(d: Disposable) {
+                    }
+
+                    override fun onNext(responseBody: ResponseBody) {
+                        val buf = ByteArray(2048)
+                        var inputStream: InputStream = responseBody.byteStream()
+                        val outputStream = FileOutputStream(file)
+                        var len: Int
                         try {
-                            inputStream.close()
-                        } catch (e: IOException) {
-                        }
-                        try {
-                            outputStream.close()
-                        } catch (e: IOException) {
-                            e.printStackTrace()
+                            inputStream = responseBody.byteStream()
+                            val total: Long = responseBody.contentLength()
+                            if (!file.exists()) {
+                                file.createNewFile()
+                            }
+                            var sum: Long = 0
+                            while (inputStream.read(buf).also { len = it } != -1) {
+                                outputStream.write(buf, 0, len)
+                                sum += len.toLong()
+                                val progress = (sum * 1.0f / total * 100).toInt()
+                                Log.d("------?", "写入缓存文件${file.getName()}进度: $progress")
+                            }
+                            outputStream.flush()
+                            Log.d("------?", "文件下载成功,准备展示文件。")
+                            listener.downloadFinish(file)
+                        } catch (e: Exception) {
+                            Log.d("------?", "onNext文件下载异常 = $e")
+                            listener.downloadError(e)
+                        } finally {
+                            try {
+                                inputStream.close()
+                            } catch (e: IOException) {
+                            }
+                            try {
+                                outputStream.close()
+                            } catch (e: IOException) {
+                                e.printStackTrace()
+                            }
                         }
                     }
-                }
+
+                    override fun onError(e: Throwable) {
+                        Log.d("------?", "onError文件下载异常 = $e")
+                        listener.downloadError(e)
+                    }
+
+                    override fun onComplete() {
+
+                    }
+
+                })
     }
 
     interface DownloadListener {

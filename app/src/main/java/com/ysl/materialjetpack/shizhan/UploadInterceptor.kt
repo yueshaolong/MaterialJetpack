@@ -8,7 +8,7 @@ class UploadInterceptor(private val listener: ProgressListener?) : Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
-        val build = request.newBuilder().post(ProgressRequestBody(request.body!!, listener)).build()
+        val build = request.newBuilder().post(ProgressRequestBody(request.body(), listener)).build()
         return chain.proceed(build)
     }
 }
