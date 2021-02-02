@@ -39,6 +39,8 @@
         <activity android:name=".workmanager.WorkActivity">
         </activity>
         <activity android:name=".shizhan.WanActivity">
+        </activity>
+        <activity android:name=".shizhan.WanActivity2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

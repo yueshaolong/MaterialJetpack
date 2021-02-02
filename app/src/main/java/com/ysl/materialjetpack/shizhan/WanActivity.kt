@@ -46,23 +46,18 @@ class WanActivity : BaseActivity<ActWanBinding, WanViewModel>() {
             binding.srl.finishRefresh(true)
             binding.tvUrl.text = it[0].imagePath
             binding.tvContent.text = it[0].title
+
             binding.rv.adapter = object : BannerAdapter(this, it){}
-//                    object : BaseQuickAdapter<BannerVO, BaseViewHolder>(R.layout.banner_item, it as MutableList<BannerVO>?){
-//                override fun onItemViewHolderCreated(@NotNull viewHolder: BaseViewHolder, viewType: Int) {
-//                    // 绑定 view
-//                    DataBindingUtil.bind<ViewDataBinding>(viewHolder.itemView)
-////                    BannerItemBinding.bind(viewHolder.itemView)
-//                }
-//                override fun convert(holder: BaseViewHolder, item: BannerVO) {
-//                    val binding: ViewDataBinding? = holder.getBinding()
-//                    binding.set item.url
-//                    binding.tvContent.text = item.desc
-//
-//                    doubleClick(holder.itemView){
-//                        showToast("点击条目${holder.adapterPosition}")
+//            binding.rv.adapter =
+//                    object : BaseQuickAdapter<BannerVO, BaseDataBindingHolder<BannerItem2Binding>>
+//                    (R.layout.banner_item2, it as MutableList<BannerVO>?){
+//                        override fun convert(holder: BaseDataBindingHolder<BannerItem2Binding>, item: BannerVO) {
+//                            val binding: BannerItem2Binding? = holder.dataBinding
+//                            if (binding != null) {
+//                                binding.bannerVO = item
+//                            }
+//                        }
 //                    }
-//                }
-//            }
         }
 
         fileViewModel.progress.observe(this){

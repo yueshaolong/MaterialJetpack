@@ -4,11 +4,12 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.blankj.utilcode.util.ToastUtils
 import com.bumptech.glide.Glide
 import com.ysl.materialjetpack.R
 import com.ysl.materialjetpack.databinding.BannerItemBinding
 
-open class BannerAdapter(val context: Context,private val dataList: List<BannerVO>)
+open class BannerAdapter(val context: Context, private val dataList: List<BannerVO>)
     : RecyclerView.Adapter<BannerAdapter.ViewHolder>(){
 
     inner class ViewHolder(mBinding: BannerItemBinding) : RecyclerView.ViewHolder(mBinding.root) {
@@ -32,6 +33,9 @@ open class BannerAdapter(val context: Context,private val dataList: List<BannerV
                 .error(R.mipmap.ic_launcher)
                 .centerCrop()
                 .into(holder.iv)
+        holder.itemView.setOnClickListener {
+            ToastUtils.showShort("点击了：$position")
+        }
     }
 
     override fun getItemCount(): Int = dataList.size

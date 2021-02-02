@@ -2,6 +2,7 @@ package com.ysl.materialjetpack.shizhan
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 
 class WanViewModel(application: Application) : BaseViewModel(application){
@@ -14,4 +15,7 @@ class WanViewModel(application: Application) : BaseViewModel(application){
         handleData(banner, HttpUtil.getData("https://www.wanandroid.com/", WanApi::class.java).bannerList())
     }
 
+    fun click(view: View){
+        loadData()
+    }
 }
