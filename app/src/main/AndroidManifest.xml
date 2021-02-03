@@ -38,9 +38,9 @@
         </activity>
         <activity android:name=".workmanager.WorkActivity">
         </activity>
-        <activity android:name=".shizhan.WanActivity">
+        <activity android:name="com.ysl.materialjetpack.shizhan.view.viewbinding.WanActivity">
         </activity>
-        <activity android:name=".shizhan.WanActivity2">
+        <activity android:name="com.ysl.materialjetpack.shizhan.view.databinding.WanActivity2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

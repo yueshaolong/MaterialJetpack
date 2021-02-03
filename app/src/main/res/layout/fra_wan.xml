@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="wanViewModel"
+            type="com.ysl.materialjetpack.shizhan.viewmodel.WanViewModel" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_fra"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@{wanViewModel.banner[0].title,default=abc}"
+            android:textSize="20sp"
+            android:textColor="@color/red"/>
+
+    </LinearLayout>
+</layout>
