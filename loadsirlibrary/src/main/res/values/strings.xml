@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">baselibrary</string>
+
+    <string name="nodata">暂无数据</string>
+    <string name="neterror">"哎呀，出错啦"</string>
+    <string name="nettimeout">链接超时</string>
+</resources>

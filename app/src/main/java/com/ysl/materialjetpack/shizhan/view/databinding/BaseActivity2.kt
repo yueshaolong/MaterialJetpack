@@ -5,38 +5,56 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.view.Window
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.blankj.utilcode.util.KeyboardUtils
+import com.kingja.loadsir.core.LoadService
+import com.kingja.loadsir.core.LoadSir
 import com.tbruyelle.rxpermissions2.RxPermissions
+import com.ysl.loadsirlibrary.EmptyCallback
+import com.ysl.loadsirlibrary.ErrorCallback
+import com.ysl.loadsirlibrary.LoadingCallback
 import com.ysl.materialjetpack.R
 import com.ysl.materialjetpack.databinding.ActBase2Binding
-import com.ysl.materialjetpack.shizhan.view.UICallBack
 import com.ysl.materialjetpack.shizhan.view.weiget.ViewClickObservable
 import com.ysl.materialjetpack.shizhan.viewmodel.BaseViewModel
+import com.ysl.materialjetpack.shizhan.viewmodel.ToolBarViewModel
 import io.reactivex.functions.Consumer
 import xyz.bboylin.universialtoast.UniversalToast
 import java.util.concurrent.TimeUnit
 
-abstract class BaseActivity2<T: ViewDataBinding, VB: BaseViewModel> : AppCompatActivity(), UICallBack {
+abstract class BaseActivity2<T : ViewDataBinding, VB : BaseViewModel> : AppCompatActivity() {
     lateinit var baseBinding: ActBase2Binding
     lateinit var binding: T
     lateinit var vb: VB
-    protected lateinit var mActivity : Activity
-    protected lateinit var imm : InputMethodManager
-    protected lateinit var layoutView: View
+    lateinit var mActivity : Activity
+    lateinit var imm : InputMethodManager
+    lateinit var layoutView: View
+    lateinit var loadService : LoadService<Any>
+
+    val toolBarViewModel : ToolBarViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE) //设置无ActionBar
         mActivity = this
         imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+
         baseBinding = DataBindingUtil.inflate(layoutInflater, R.layout.act_base2, null, false)
+        baseBinding.layoutAppBar.toolBarViewModel = toolBarViewModel
+        baseBinding.lifecycleOwner = this
+
         binding = DataBindingUtil.inflate(layoutInflater, getLayoutId(), baseBinding.flContent, true)
+        binding.lifecycleOwner = this
         setContentView(baseBinding.root)
+        layoutView = binding.root
+
         initViewModel()
         initViews(savedInstanceState)
         initEvent()
@@ -50,38 +68,60 @@ abstract class BaseActivity2<T: ViewDataBinding, VB: BaseViewModel> : AppCompatA
     abstract fun initEvent()
     abstract fun initData()
 
+    fun click(view: View){
+        when(view.id){
+            R.id.iv_back -> finish()
+            R.id.iv_right -> showToast("点击了问号")
+            R.id.iv_right2 -> showToast("点击了搜索")
+        }
+    }
     override fun onStart() {
         super.onStart()
-        baseBinding.layoutAppBar.ivBack.setOnClickListener{
-            finish()
-        }
-        baseBinding.layoutAppBar.ivRight.setOnClickListener {
-            vb.message.postValue("点击了问号")
-        }
-        baseBinding.layoutAppBar.ivRight2.setOnClickListener {
-            vb.message.postValue("点击了搜索")
-        }
-        vb.message.observe(this){
-            showToast(it)
+        loadService = LoadSir.getDefault().register(layoutView)
+
+        vb.error.observe(this){
+            showError(it)
+            setErrorCallBack()
         }
         vb.empty.observe(this){
             showToast("暂无数据")
+            setEmptyCallBack(true, "")
         }
         vb.loading.observe(this){
-            showToast("加载中...")
+            if (it) {
+                showToast("加载中...")
+                loadService.showCallback(LoadingCallback::class.java)
+            } else {
+                showToast("加载完成")
+                loadService.showSuccess()
+            }
         }
     }
 
-//    private fun bindView(){
-//        val superclass: Type = javaClass.genericSuperclass
-//        val aClass = (superclass as ParameterizedType).actualTypeArguments[0] as Class<*>
-//        try {
-//            val method: Method = aClass.getDeclaredMethod("bind", View::class.java)
-//            binding = method.invoke(null, layoutView) as T
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-//    }
+    fun setErrorCallBack() {
+        ErrorCallback.listener = View.OnClickListener {
+            loadService.showCallback(LoadingCallback::class.java)
+            initData()
+        }
+        loadService.showCallback(ErrorCallback::class.java)
+    }
+
+    fun setEmptyCallBack(showBtn: Boolean, text: String) {
+        EmptyCallback.showBtn = showBtn
+        EmptyCallback.text = if (TextUtils.isEmpty(text)) "暂无数据" else text
+        EmptyCallback.listener = View.OnClickListener {
+            finish()
+        }
+        loadService.showCallback(EmptyCallback::class.java)
+    }
+
+    protected fun showTitle(){
+        toolBarViewModel.centerShow.value = true
+        toolBarViewModel.ivBack.value = true
+        toolBarViewModel.ivRight.value = false
+        toolBarViewModel.ivRight2.value = false
+    }
+
     protected fun openActivity(clazz: Class<Any>){
         startActivity(Intent(this, clazz))
     }
@@ -111,15 +151,11 @@ abstract class BaseActivity2<T: ViewDataBinding, VB: BaseViewModel> : AppCompatA
         finish()
     }
 
-    override fun showToast(toast: String) {
+    fun showToast(toast: String) {
         UniversalToast.makeText(mActivity, toast, UniversalToast.LENGTH_SHORT).showWarning()
     }
 
-    override fun showEmpty() {
-        UniversalToast.makeText(mActivity, "暂无数据", UniversalToast.LENGTH_SHORT).showWarning()
-    }
-
-    override fun showError(throwable: Throwable) {
+    fun showError(throwable: Throwable) {
         throwable.message?.let { UniversalToast.makeText(mActivity, it, UniversalToast.LENGTH_SHORT).showError() }
     }
 

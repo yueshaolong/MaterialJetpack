@@ -26,11 +26,9 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
     }
     var loading = MutableLiveData<Boolean>()
         private set
-    var errorCode = MutableLiveData<Int>()
-        private set
     var empty = MutableLiveData<Boolean>()
         private set
-    var message = MutableLiveData<String>()
+    var error = MutableLiveData<Throwable>()
         private set
     val mDisposable: CompositeDisposable = CompositeDisposable()
 
@@ -48,7 +46,7 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
                                 if (t is Result<*>) {
                                     val result = t as Result<*>
                                     if (result.data == null || (result.data is Collection<*> && (result.data as Collection<*>).size == 0)) {
-                                        message.postValue(result.errorMsg)
+                                        error.postValue(Throwable(result.errorMsg))
                                     } else {
                                         ld.postValue(t.data as R)
                                     }
@@ -58,12 +56,13 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
                             }
 
                             override fun onError(e: Throwable) {
+                                Log.d(TAG, "onError: $e")
                                 ExceptionEngine.handleException(e)
-                                message.postValue(e.message)
+                                error.postValue(e)
                             }
 
                             override fun onComplete() {
-
+                                loading.postValue(false)
                             }
 
                         }

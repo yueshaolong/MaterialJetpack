@@ -21,4 +21,5 @@ class WanViewModel(application: Application) : BaseViewModel(application){
     fun click(view: View){
         loadData()
     }
+
 }

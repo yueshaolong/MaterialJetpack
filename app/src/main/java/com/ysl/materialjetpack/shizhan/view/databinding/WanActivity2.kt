@@ -33,11 +33,13 @@ class WanActivity2 : BaseActivity2<ActWan2Binding, WanViewModel>() {
         binding.fileViewModel = fileViewModel
     }
     override fun initViews(bundle: Bundle?) {
+        showTitle()
+        toolBarViewModel.centerText.value = "首页"
+
         binding.rv.layoutManager = LinearLayoutManager(this)
         binding.rv.addItemDecoration(object : RecyclerViewSpacesItemDecoration(0, 10, 0, 10) {})
 
-        binding.rv.adapter = object : BaseQuickAdapter<BannerVO, BaseDataBindingHolder<BannerItem2Binding>>
-        (R.layout.banner_item2){
+        binding.rv.adapter = object : BaseQuickAdapter<BannerVO, BaseDataBindingHolder<BannerItem2Binding>>(R.layout.banner_item2){
             override fun convert(holder: BaseDataBindingHolder<BannerItem2Binding>, item: BannerVO) {
                 val binding: BannerItem2Binding? = holder.dataBinding
                 if (binding != null) {
@@ -50,7 +52,7 @@ class WanActivity2 : BaseActivity2<ActWan2Binding, WanViewModel>() {
                 Log.d(TAG, "onItemClick: 点击${wanViewModel.banner.value?.get(position)}")
         }
 
-//        go2Fragment()
+        go2Fragment()
     }
 
     private fun go2Fragment() {
@@ -75,30 +77,15 @@ class WanActivity2 : BaseActivity2<ActWan2Binding, WanViewModel>() {
         }
 
         wanViewModel.banner.observe(this){
-            Log.d("TAG", "initEvent: ${it.size}")
-
             binding.srl.finishRefresh(true)
             binding.srl.finishLoadMore()
 
-//            binding.tvUrl.text = it[0].imagePath
-//            binding.tvContent.text = it[0].title
-
             (binding.rv.adapter as BaseQuickAdapter<BannerVO, *>).setList(it)
-        }
-
-        doubleClick(binding.tvPath){
-            fileViewModel.getFile("a.apk", "1", "cache")
-        }
-        fileViewModel.progress.observe(this){
-//            binding.tvProgress.text = "$it%"
-        }
-        fileViewModel.downloadFile.observe(this){
-//            binding.tvPath.text = it.absolutePath
         }
     }
 
     override fun initData() {
         wanViewModel.loadData()
-        fileViewModel.getFile("a.apk", "1", "cache")
+//        fileViewModel.getFile("a.apk", "1", "cache")
     }
 }

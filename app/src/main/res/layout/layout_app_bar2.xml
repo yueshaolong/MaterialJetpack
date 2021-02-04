@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="toolBarViewModel"
+            type="com.ysl.materialjetpack.shizhan.viewmodel.ToolBarViewModel" />
+    </data>
 <com.google.android.material.appbar.AppBarLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -29,6 +34,8 @@
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
                     android:src="@mipmap/action_button_back_normal"
+                    app:goneUnless="@{toolBarViewModel.ivBack}"
+                    android:onClick="click"
                     />
             </RelativeLayout>
 
@@ -45,6 +52,8 @@
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/iv_right"
                     android:src="@mipmap/sousuo"
+                    app:goneUnless="@{toolBarViewModel.ivRight2}"
+                    android:onClick="click"
                     android:paddingLeft="1dp"
                     android:paddingRight="10dp"
                     android:paddingTop="10dp"
@@ -55,6 +64,8 @@
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
                     android:src="@mipmap/wenhao"
+                    app:goneUnless="@{toolBarViewModel.ivRight}"
+                    android:onClick="click"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:paddingTop="10dp"
@@ -83,6 +94,8 @@
                 android:gravity="center"
                 android:ellipsize="marquee"
                 android:singleLine="true"
+                app:goneUnless="@{toolBarViewModel.centerShow}"
+                android:text="@{toolBarViewModel.centerText}"
                 android:textColor="@color/white"
                 android:textSize="16sp"/>
 

@@ -23,7 +23,7 @@ class FileViewModel(application: Application) : BaseViewModel(application) {
                     }
 
                     override fun error(e: Throwable) {
-                        message.postValue(e.message)
+                        error.postValue(e)
                     }
 
                     override fun download(file: File) {
@@ -33,7 +33,7 @@ class FileViewModel(application: Application) : BaseViewModel(application) {
                             }
 
                             override fun downloadError(e: Throwable) {
-                                message.postValue(e.message)
+                                error.postValue(e)
                             }
                         }, HttpUtil.getData("http://39.104.137.131:9995/",
                                 object : ProgressListener {

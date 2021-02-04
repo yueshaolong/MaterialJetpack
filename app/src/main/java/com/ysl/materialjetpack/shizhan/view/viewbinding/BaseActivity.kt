@@ -13,9 +13,9 @@ import androidx.viewbinding.ViewBinding
 import com.blankj.utilcode.util.KeyboardUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.ysl.materialjetpack.databinding.ActBaseBinding
-import com.ysl.materialjetpack.shizhan.viewmodel.BaseViewModel
 import com.ysl.materialjetpack.shizhan.view.UICallBack
 import com.ysl.materialjetpack.shizhan.view.weiget.ViewClickObservable
+import com.ysl.materialjetpack.shizhan.viewmodel.BaseViewModel
 import io.reactivex.functions.Consumer
 import xyz.bboylin.universialtoast.UniversalToast
 import java.lang.reflect.Method
@@ -52,14 +52,8 @@ abstract class BaseActivity<T: ViewBinding, VB: BaseViewModel> : AppCompatActivi
 
     override fun onStart() {
         super.onStart()
-        baseBinding.layoutAppBar.ivBack.setOnClickListener{
-            finish()
-        }
-        baseBinding.layoutAppBar.ivRight2.setOnClickListener {
-            vb.message.postValue("dffd")
-        }
-        vb.message.observe(this){
-            showToast(it)
+        vb.error.observe(this){
+            it.message?.let { it1 -> showToast(it1) }
         }
         vb.empty.observe(this){
             showToast("暂无数据")
