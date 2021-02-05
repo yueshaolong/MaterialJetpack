@@ -53,7 +53,7 @@ abstract class BaseActivity<T: ViewBinding, VB: BaseViewModel> : AppCompatActivi
     override fun onStart() {
         super.onStart()
         vb.error.observe(this){
-            it.message?.let { it1 -> showToast(it1) }
+//            it.message?.let { it1 -> showToast(it1) }
         }
         vb.empty.observe(this){
             showToast("暂无数据")

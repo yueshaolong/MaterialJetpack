@@ -36,9 +36,10 @@ abstract class BaseFragment<VB: BaseViewModel> : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         mActivity = requireActivity()
         layoutView = binding.root
-        loadService = LoadSir.getDefault().register(layoutView)
 
         initViewModel()
+        setBaseListener()
+
         initViews(savedInstanceState)
         initEvent()
         initData()
@@ -50,24 +51,29 @@ abstract class BaseFragment<VB: BaseViewModel> : Fragment() {
     abstract fun initEvent()
     abstract fun initData()
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    private fun setBaseListener() {
+        loadService = LoadSir.getDefault().register(layoutView)
+        loadService.showSuccess()
 
         vb.error.observe(viewLifecycleOwner){
-            showError(it)
-            setErrorCallBack()
+            if (!it.isActivity) {
+                showError(it.throwable)
+                setErrorCallBack()
+            }
         }
         vb.empty.observe(viewLifecycleOwner){
-            showToast("暂无数据")
-            setEmptyCallBack(true, "")
+            if (!it.isActivity) {
+                showToast("暂无数据")
+                setEmptyCallBack(true, "")
+            }
         }
         vb.loading.observe(viewLifecycleOwner){
-            if (it) {
-                showToast("加载中...")
-                loadService.showCallback(LoadingCallback::class.java)
-            } else {
-                showToast("加载完成")
-                loadService.showSuccess()
+            if (!it.isActivity) {
+                if (it.isLoading) {
+                    loadService.showCallback(LoadingCallback::class.java)
+                } else {
+                    loadService.showSuccess()
+                }
             }
         }
     }

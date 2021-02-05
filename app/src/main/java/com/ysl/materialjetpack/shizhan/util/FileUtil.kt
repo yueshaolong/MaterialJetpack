@@ -97,6 +97,7 @@ object FileUtil {
     fun getFile(fileName: String, fileId: String, dirName: String, listener: GetFileListener) {
         if (TextUtils.isEmpty(fileId) || TextUtils.isEmpty(fileName) || TextUtils.isEmpty(dirName)){
             listener.error(Throwable("参数为空"))
+            Log.d(TAG, "getFile: 参数为空")
             return
         }
         val createFile : File? = createFile(fileName, dirName)

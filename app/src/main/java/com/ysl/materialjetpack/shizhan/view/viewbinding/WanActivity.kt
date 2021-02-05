@@ -8,13 +8,13 @@ import com.ysl.materialjetpack.R
 import com.ysl.materialjetpack.databinding.ActWanBinding
 import com.ysl.materialjetpack.shizhan.view.adapter.BannerAdapter
 import com.ysl.materialjetpack.shizhan.view.weiget.RecyclerViewSpacesItemDecoration
+import com.ysl.materialjetpack.shizhan.viewmodel.BannerViewModel
 import com.ysl.materialjetpack.shizhan.viewmodel.FileViewModel
-import com.ysl.materialjetpack.shizhan.viewmodel.WanViewModel
 
 
-class WanActivity : BaseActivity<ActWanBinding, WanViewModel>() {
+class WanActivity : BaseActivity<ActWanBinding, BannerViewModel>() {
     private val tag = "WanActivity"
-    private val viewModel : WanViewModel by viewModels()
+    private val viewModel : BannerViewModel by viewModels()
     private val fileViewModel : FileViewModel by viewModels()
 
     override fun getLayoutId(): Int {
@@ -35,11 +35,11 @@ class WanActivity : BaseActivity<ActWanBinding, WanViewModel>() {
             showToast("有图")
         }
         doubleClick(binding.btnRequest, consumer = {
-            viewModel.loadData()
+//            viewModel.loadData()
 //            fileViewModel.getFile("a.apk", "1", "cache")
         })
         binding.srl.setOnRefreshListener {
-            viewModel.loadData()
+//            viewModel.loadData()
         }
         binding.srl.setOnLoadMoreListener {
 

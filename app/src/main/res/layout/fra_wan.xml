@@ -5,7 +5,10 @@
     <data>
         <variable
             name="wanViewModel"
-            type="com.ysl.materialjetpack.shizhan.viewmodel.WanViewModel" />
+            type="com.ysl.materialjetpack.shizhan.viewmodel.BannerViewModel" />
+        <variable
+            name="fileViewModel"
+            type="com.ysl.materialjetpack.shizhan.viewmodel.FileViewModel" />
     </data>
 
     <LinearLayout
@@ -17,11 +20,24 @@
         <TextView
             android:id="@+id/tv_fra"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:gravity="center"
             android:text="@{wanViewModel.banner[0].title,default=abc}"
             android:textSize="20sp"
             android:textColor="@color/red"/>
 
+        <TextView
+            android:id="@+id/tv_progress"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="@{fileViewModel.progress.toString()+'%', default=my}" />
+
+        <TextView
+            android:id="@+id/tv_path"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="@{fileViewModel.downloadFile.absolutePath, default=hello}" />
     </LinearLayout>
 </layout>

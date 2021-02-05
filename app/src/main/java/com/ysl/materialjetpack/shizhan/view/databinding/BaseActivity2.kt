@@ -56,6 +56,8 @@ abstract class BaseActivity2<T : ViewDataBinding, VB : BaseViewModel> : AppCompa
         layoutView = binding.root
 
         initViewModel()
+        setBaseListener()
+
         initViews(savedInstanceState)
         initEvent()
         requestPermission()
@@ -75,25 +77,30 @@ abstract class BaseActivity2<T : ViewDataBinding, VB : BaseViewModel> : AppCompa
             R.id.iv_right2 -> showToast("点击了搜索")
         }
     }
-    override fun onStart() {
-        super.onStart()
+
+    private fun setBaseListener() {
         loadService = LoadSir.getDefault().register(layoutView)
+        loadService.showSuccess()
 
         vb.error.observe(this){
-            showError(it)
-            setErrorCallBack()
+            if (it.isActivity) {
+                showError(it.throwable)
+                setErrorCallBack()
+            }
         }
         vb.empty.observe(this){
-            showToast("暂无数据")
-            setEmptyCallBack(true, "")
+            if (it.isActivity) {
+                showToast("暂无数据")
+                setEmptyCallBack(true, "")
+            }
         }
         vb.loading.observe(this){
-            if (it) {
-                showToast("加载中...")
-                loadService.showCallback(LoadingCallback::class.java)
-            } else {
-                showToast("加载完成")
-                loadService.showSuccess()
+            if (it.isActivity) {
+                if (it.isLoading) {
+                    loadService.showCallback(LoadingCallback::class.java)
+                } else {
+                    loadService.showSuccess()
+                }
             }
         }
     }
@@ -117,14 +124,21 @@ abstract class BaseActivity2<T : ViewDataBinding, VB : BaseViewModel> : AppCompa
 
     protected fun showTitle(){
         toolBarViewModel.centerShow.value = true
+        toolBarViewModel.ivBack.value = false
+        toolBarViewModel.ivRight.value = false
+        toolBarViewModel.ivRight2.value = false
+    }
+    protected fun showBackTitle(){
+        toolBarViewModel.centerShow.value = true
         toolBarViewModel.ivBack.value = true
         toolBarViewModel.ivRight.value = false
         toolBarViewModel.ivRight2.value = false
     }
 
-    protected fun openActivity(clazz: Class<Any>){
+    protected fun toActivity(clazz: Class<out Activity>){//子类泛型对象可以赋值给父类泛型对象，用 out。
         startActivity(Intent(this, clazz))
     }
+
     @SuppressLint("CheckResult")
     protected open fun requestPermission(){
         val rxPermissions = RxPermissions(this)
@@ -163,7 +177,7 @@ abstract class BaseActivity2<T : ViewDataBinding, VB : BaseViewModel> : AppCompa
     protected fun doubleClick(view: View, consumer: Consumer<in Any?>) {
         object : ViewClickObservable(view){}
                 .throttleFirst(2, TimeUnit.SECONDS)
-                .subscribe(consumer)
+                .subscribe(consumer)//in 代替了? super
     }
 
     override fun onDestroy() {
