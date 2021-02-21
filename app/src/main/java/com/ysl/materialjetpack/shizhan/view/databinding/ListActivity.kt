@@ -49,7 +49,7 @@ class ListActivity : BaseActivity2<ActListBinding, ArticleViewModel>() {
         //为整个条目设置点击事件
         adapter.setOnItemClickListener { adapter, view, position ->
             val article : Article = adapter.getItem(position) as Article
-            Log.d(WanActivity2.TAG, "onItemClick: 点击${article}")
+            Log.d(localClassName, "onItemClick: 点击${article}")
             showToast("$position ---> ${article.title}")
         }
         //为item内某个view设置点击事件

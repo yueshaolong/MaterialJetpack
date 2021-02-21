@@ -49,6 +49,9 @@ class WanActivity2 : BaseActivity2<ActWan2Binding, BannerViewModel>() {
         binding.btnList.setOnClickListener {
             toActivity(ListActivity::class.java)
         }
+        binding.pagingList.setOnClickListener {
+            toActivity(PagingListActivity::class.java)
+        }
     }
 
     override fun initData() {

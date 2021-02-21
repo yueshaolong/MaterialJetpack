@@ -51,17 +51,7 @@ class WanActivity : BaseActivity<ActWanBinding, BannerViewModel>() {
             binding.tvUrl.text = it[0].imagePath
             binding.tvContent.text = it[0].title
 
-            binding.rv.adapter = object : BannerAdapter(this, it){}
-//            binding.rv.adapter =
-//                    object : BaseQuickAdapter<BannerVO, BaseDataBindingHolder<BannerItem2Binding>>
-//                    (R.layout.banner_item2, it as MutableList<BannerVO>?){
-//                        override fun convert(holder: BaseDataBindingHolder<BannerItem2Binding>, item: BannerVO) {
-//                            val binding: BannerItem2Binding? = holder.dataBinding
-//                            if (binding != null) {
-//                                binding.bannerVO = item
-//                            }
-//                        }
-//                    }
+            binding.rv.adapter = BannerAdapter(this, it)
         }
 
         fileViewModel.progress.observe(this){

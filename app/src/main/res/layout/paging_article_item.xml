@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<layout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto">-->
+<!--    <data>-->
+<!--        <variable-->
+<!--            name="article"-->
+<!--            type="com.ysl.materialjetpack.shizhan.model.Article" />-->
+<!--    </data>-->
+    <LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/iv"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            />
+<!--            app:imgUrl="@{article.envelopePic}"-->
+        <TextView
+            android:id="@+id/tv_url"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:background="@color/colorAccent"
+            />
+<!--            android:text="@{article.link}"-->
+<!--            app:goneUnless="@{true}"-->
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:background="@color/colorAccent"
+            />
+<!--            android:text="@{article.title}"-->
+
+    </LinearLayout>
+<!--</layout>-->

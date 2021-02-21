@@ -10,7 +10,7 @@ import com.ysl.materialjetpack.R
 import com.ysl.materialjetpack.databinding.BannerItemBinding
 import com.ysl.materialjetpack.shizhan.model.BannerVO
 
-open class BannerAdapter(val context: Context, private val dataList: List<BannerVO>)
+class BannerAdapter(val context: Context, private val dataList: List<BannerVO>)
     : RecyclerView.Adapter<BannerAdapter.ViewHolder>(){
 
     inner class ViewHolder(mBinding: BannerItemBinding) : RecyclerView.ViewHolder(mBinding.root) {

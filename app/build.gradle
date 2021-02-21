@@ -95,16 +95,20 @@ dependencies {
     // Testing Navigation
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
 
-//    def paging_version = "3.0.0-alpha11"
-    def paging_version = "2.1.2"
+    def paging_version = "3.0.0-alpha11"
+//    def paging_version = "2.1.2"
     // Kotlin
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
 //    implementation "androidx.paging:paging-rxjava2-ktx:$paging_version"
     testImplementation "androidx.paging:paging-common-ktx:$paging_version"
     // Java language implementation
     implementation "androidx.paging:paging-runtime:$paging_version"
-    // optional - RxJava support
+    // optional - RxJava2 support
 //    implementation "androidx.paging:paging-rxjava2:$paging_version"
+    // optional - RxJava3 support
+//    implementation "androidx.paging:paging-rxjava3:$paging_version"
+    // optional - Guava ListenableFuture support
+//    implementation "androidx.paging:paging-guava:$paging_version"
     // alternatively - without Android dependencies for testing
     testImplementation "androidx.paging:paging-common:$paging_version"
 
