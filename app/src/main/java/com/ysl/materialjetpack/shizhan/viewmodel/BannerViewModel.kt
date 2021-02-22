@@ -7,7 +7,7 @@ import com.ysl.materialjetpack.shizhan.api.WanApi
 import com.ysl.materialjetpack.shizhan.http.HttpUtil
 import com.ysl.materialjetpack.shizhan.model.BannerVO
 
-class BannerViewModel(application: Application) : BaseViewModel(application) {
+class BannerViewModel constructor(application: Application) : BaseViewModel(application) {
 
     var banner: MutableLiveData<List<BannerVO>> = MutableLiveData()
 

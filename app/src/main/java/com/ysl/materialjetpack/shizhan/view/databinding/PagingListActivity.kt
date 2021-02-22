@@ -10,7 +10,6 @@ import com.ysl.materialjetpack.shizhan.view.adapter.ArticlePagingAdapter
 import com.ysl.materialjetpack.shizhan.view.weiget.RecyclerViewSpacesItemDecoration
 import com.ysl.materialjetpack.shizhan.viewmodel.PagingArticleViewModel
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChangedBy
 
 class PagingListActivity : BaseActivity2<ActPagingListBinding, PagingArticleViewModel>() {
     companion object{
@@ -43,15 +42,15 @@ class PagingListActivity : BaseActivity2<ActPagingListBinding, PagingArticleView
             }
         }
         lifecycleScope.launchWhenCreated {
-            pagingArticleViewModel.posts.collectLatest {
-                adapter.submitData(it)
-            }
+//            pagingArticleViewModel.posts.collectLatest {
+//                adapter.submitData(it)
+//            }
         }
         lifecycleScope.launchWhenCreated {
-            adapter.loadStateFlow
-                    .distinctUntilChangedBy { it.refresh }
-                    .filter { it.refresh is LoadState.NotLoading }
-                    .collect { binding.rv.scrollToPosition(0) }
+//            adapter.loadStateFlow
+//                    .distinctUntilChangedBy { it.refresh }
+//                    .filter { it.refresh is LoadState.NotLoading }
+//                    .collect { binding.rv.scrollToPosition(0) }
         }
 
 

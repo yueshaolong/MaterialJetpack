@@ -1,18 +1,20 @@
 package com.ysl.materialjetpack.shizhan.view.databinding
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.ysl.materialjetpack.R
 import com.ysl.materialjetpack.databinding.ActWan2Binding
+import com.ysl.materialjetpack.shizhan.hilt.HiltActivity
 import com.ysl.materialjetpack.shizhan.viewmodel.BannerViewModel
-
 
 class WanActivity2 : BaseActivity2<ActWan2Binding, BannerViewModel>() {
     companion object{
         const val TAG = "WanActivity"
     }
+
     private val wanViewModel : BannerViewModel by viewModels()
 
     override fun getLayoutId(): Int {
@@ -46,14 +48,20 @@ class WanActivity2 : BaseActivity2<ActWan2Binding, BannerViewModel>() {
 //        doubleClick(binding.btnList){
 //            toActivity(ListActivity::class.java)
 //        }
-        binding.btnList.setOnClickListener {
-            toActivity(ListActivity::class.java)
-        }
-        binding.pagingList.setOnClickListener {
-            toActivity(PagingListActivity::class.java)
+//        binding.btnList.setOnClickListener {
+//            toActivity(ListActivity::class.java)
+//        }
+//        binding.pagingList.setOnClickListener {
+//            toActivity(PagingListActivity::class.java)
+//        }
+    }
+    fun clickListener(view: View){
+        when(view.id){
+            R.id.btn_list -> toActivity(ListActivity::class.java)
+            R.id.paging_list -> toActivity(PagingListActivity::class.java)
+            R.id.tv_hilt -> toActivity(HiltActivity::class.java)
         }
     }
-
     override fun initData() {
         wanViewModel.loadBanner(true)
     }

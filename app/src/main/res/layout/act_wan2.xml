@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
+<!--        <import type="android.view.View"/>-->
         <variable
             name="wanViewModel"
             type="com.ysl.materialjetpack.shizhan.viewmodel.BannerViewModel" />
@@ -33,16 +34,27 @@
             android:text="请求" />
 
         <Button
-        android:id="@+id/btn_list"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="列表" />
+            android:id="@+id/btn_list"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:onClick="clickListener"
+            android:text="列表" />
 
         <Button
             android:id="@+id/paging_list"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:onClick="clickListener"
             android:text="分页列表" />
+
+        <TextView
+            android:id="@+id/tv_hilt"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:onClick="clickListener"
+            android:gravity="center"
+            android:background="@color/font_color_main"
+            android:text="Hilt" />
 
         <FrameLayout
             android:id="@+id/id_container"

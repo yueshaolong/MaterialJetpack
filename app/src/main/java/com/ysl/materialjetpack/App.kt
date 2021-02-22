@@ -6,8 +6,9 @@ import com.kingja.loadsir.core.LoadSir
 import com.ysl.loadsirlibrary.EmptyCallback
 import com.ysl.loadsirlibrary.ErrorCallback
 import com.ysl.loadsirlibrary.LoadingCallback
+import dagger.hilt.android.HiltAndroidApp
 
-//@HiltAndroidApp
+@HiltAndroidApp
 class App : Application(){
 
     override fun onCreate() {

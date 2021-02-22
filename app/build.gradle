@@ -25,7 +25,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = ["room.schemaLocation":
+                arguments += ["room.schemaLocation":
                                      "$projectDir/schemas".toString()]
             }
         }
@@ -81,7 +81,7 @@ dependencies {
     // optional - ReactiveStreams support for LiveData
     implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version"
     // optional - Test helpers for LiveData
-    testImplementation "androidx.arch.core:core-testing:$arch_version"
+//    testImplementation "androidx.arch.core:core-testing:$arch_version"
 
     def nav_version = "2.3.2"
     // Kotlin
@@ -93,14 +93,14 @@ dependencies {
     // Dynamic Feature Module Support
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
     // Testing Navigation
-    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
+//    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
 
     def paging_version = "3.0.0-alpha11"
 //    def paging_version = "2.1.2"
     // Kotlin
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
 //    implementation "androidx.paging:paging-rxjava2-ktx:$paging_version"
-    testImplementation "androidx.paging:paging-common-ktx:$paging_version"
+//    testImplementation "androidx.paging:paging-common-ktx:$paging_version"
     // Java language implementation
     implementation "androidx.paging:paging-runtime:$paging_version"
     // optional - RxJava2 support
@@ -110,7 +110,7 @@ dependencies {
     // optional - Guava ListenableFuture support
 //    implementation "androidx.paging:paging-guava:$paging_version"
     // alternatively - without Android dependencies for testing
-    testImplementation "androidx.paging:paging-common:$paging_version"
+//    testImplementation "androidx.paging:paging-common:$paging_version"
 
 //    def work_version = "2.5.0-beta02"
     def work_version = "2.4.0"
@@ -123,7 +123,7 @@ dependencies {
     // optional - GCMNetworkManager support
     implementation "androidx.work:work-gcm:$work_version"
     // optional - Test helpers
-    androidTestImplementation "androidx.work:work-testing:$work_version"
+//    androidTestImplementation "androidx.work:work-testing:$work_version"
 
 //    def room_version = "2.3.0-alpha04"
     def room_version = "2.2.6"
@@ -134,13 +134,13 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
     // Java language implementation
     implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
+//    annotationProcessor "androidx.room:room-compiler:$room_version"
     // optional - RxJava support for Room
 //    implementation "androidx.room:room-rxjava2:$room_version"
     // optional - Guava support for Room, including Optional and ListenableFuture
     implementation "androidx.room:room-guava:$room_version"
     // Test helpers
-    testImplementation "androidx.room:room-testing:$room_version"
+//    testImplementation "androidx.room:room-testing:$room_version"
 
     def hilt_version = "2.28.3-alpha"
     implementation "com.google.dagger:hilt-android:$hilt_version"
@@ -149,7 +149,7 @@ dependencies {
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_compiler_version"
     implementation "androidx.hilt:hilt-work:$hilt_compiler_version"
     kapt "androidx.hilt:hilt-compiler:$hilt_compiler_version"
-    annotationProcessor "androidx.hilt:hilt-compiler:$hilt_compiler_version"
+//    annotationProcessor "androidx.hilt:hilt-compiler:$hilt_compiler_version"
 
     implementation 'androidx.fragment:fragment-ktx:1.2.5'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
