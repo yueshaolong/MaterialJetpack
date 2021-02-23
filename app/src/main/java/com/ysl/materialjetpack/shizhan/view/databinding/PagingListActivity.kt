@@ -3,7 +3,6 @@ package com.ysl.materialjetpack.shizhan.view.databinding
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.LoadState
 import com.ysl.materialjetpack.R
 import com.ysl.materialjetpack.databinding.ActPagingListBinding
 import com.ysl.materialjetpack.shizhan.view.adapter.ArticlePagingAdapter
@@ -38,7 +37,7 @@ class PagingListActivity : BaseActivity2<ActPagingListBinding, PagingArticleView
 
         lifecycleScope.launchWhenCreated {
             adapter.loadStateFlow.collectLatest {
-                binding.srl.isRefreshing = it.refresh is LoadState.Loading
+//                binding.srl.isRefreshing = it.refresh is LoadState.Loading
             }
         }
         lifecycleScope.launchWhenCreated {

@@ -9,6 +9,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import com.ysl.materialjetpack.R;
@@ -30,6 +31,15 @@ public class Page3Fragment extends Fragment {
                 Navigation.findNavController(view).navigate(R.id.action_page2);
                 //回退上一步
 //                Navigation.findNavController(view).navigateUp();
+            }
+        });
+
+        Button btn1=view.findViewById(R.id.btn1);
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavDirections direction = Page3FragmentDirections.actionPage1();
+                Navigation.findNavController(view).navigate(direction);
             }
         });
     }

@@ -57,7 +57,7 @@ class WanActivity2 : BaseActivity2<ActWan2Binding, BannerViewModel>() {
     }
     fun clickListener(view: View){
         when(view.id){
-            R.id.btn_list -> toActivity(ListActivity::class.java)
+            R.id.btn_list -> toActivity(MListActivity::class.java)
             R.id.paging_list -> toActivity(PagingListActivity::class.java)
             R.id.tv_hilt -> toActivity(HiltActivity::class.java)
         }

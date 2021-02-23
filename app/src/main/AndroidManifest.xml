@@ -50,6 +50,10 @@
         <activity android:name=".shizhan.hilt.HiltActivity">
         </activity>
         <activity android:name=".shizhan.view.databinding.ListActivity"/>
+        <activity android:name=".shizhan.view.databinding.MListActivity"
+            android:theme="@style/AppTheme"/>
+        <activity android:name=".shizhan.view.databinding.ToolbarActivity"
+            android:theme="@style/AppTheme"/>
         <activity android:name=".shizhan.view.databinding.PagingListActivity"/>
     </application>
 

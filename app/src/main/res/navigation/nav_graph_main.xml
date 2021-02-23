@@ -2,8 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph_main.xml"
     app:startDestination="@id/page1Fragment">
+
     <fragment
         android:id="@+id/page1Fragment"
         android:name="com.ysl.materialjetpack.navigation.Page1Fragment"
@@ -41,6 +41,9 @@
         <action
             android:id="@+id/action_page2"
             app:destination="@id/page2Fragment"/>
+        <action
+            android:id="@+id/action_page1"
+            app:destination="@id/page1Fragment" />
     </fragment>
 
 

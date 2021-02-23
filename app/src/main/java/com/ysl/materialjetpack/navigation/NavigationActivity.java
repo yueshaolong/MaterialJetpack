@@ -3,8 +3,6 @@ package com.ysl.materialjetpack.navigation;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 
 import com.ysl.materialjetpack.R;
 
@@ -14,7 +12,7 @@ public class NavigationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_navigation);
-        findViewById(R.id.action_page1);
+//        findViewById(R.id.action_page1);
         //官网代码
 //        val finalHost = NavHostFragment.create(R.navigation.nav_graph_main)
 //        supportFragmentManager.beginTransaction()
@@ -23,10 +21,10 @@ public class NavigationActivity extends AppCompatActivity {
 //                .commit();
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.my_nav_host_fragment);
-        return NavHostFragment.findNavController(fragment).navigateUp();
-    }
+//    @Override
+//    public boolean onSupportNavigateUp() {
+//        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.my_nav_host_fragment);
+//        return NavHostFragment.findNavController(fragment).navigateUp();
+//    }
 }
 

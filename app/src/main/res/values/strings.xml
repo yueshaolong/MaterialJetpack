@@ -3,4 +3,194 @@
     <string name="notification_channel_id">a</string>
     <string name="notification_title">b</string>
     <string name="cancel_download">c</string>
+
+    <string name="large_text">RxAppCompatActivity   重写activity的生命周期，并在各个生命周期内调用lifecycleSubject.onNext(***);
+
+BaseActivity implements BaseView, UICallback
+public interface BaseView {
+    void showError(ErrorBundle errorBundle);
+    void showToast(String msg);
+}
+public interface UICallback {
+    int getLayoutId();
+    void initVariables();
+    void initViews(Bundle bundle);
+    void initEvent();
+}
+onCreate{
+	super.onCreate(savedInstanceState);
+	this.requestWindowFeature(Window.FEATURE_NO_TITLE);//设置无ActionBar，单在继承AppCompatActivity时无效，继承Activity时才有效
+	AppManager.getAppManager().addActivity(this);//新建时添加到栈
+	mActivity = this;
+	setHasToolBar(true);//设置toolbar
+	initVariables();//初始化变量，由子类重写
+	user = AndroidApplication.getInstance().getUser();//获取user
+	rootView = View.inflate(this, R.layout.act_parent, null);填充根布局
+	addContent();//把子控件的布局添加到根布局FrameLayout；其中getLayoutId()由具体的子类实现且子类必须实现
+	setContentView(rootView);//把根布局添加到activity
+	StatusBarUtil.setTransparent(this);//设置透明状态栏
+	ButterKnife.bind(this, rootView);//butter knife绑定控件
+	setToolbarStyle();//设置toolbar样式
+	initViews(savedInstanceState);//初始化具体子控件
+	initEvent();//初始化点击长按等各种事件监听器
+}
+
+BaseMvpActivity
+onCreate{
+	super.onCreate(savedInstanceState);
+	initActivityComonter();//注入dagger2
+	mPresenter = initInjector();//获取presenter对象；必须由子类实现提供具体的presenter
+	mPresenter.attachView(this);//把presenter和对应的view一一绑定
+	loadData();//加载各个activity需要的数据，必须由子类根据具体情况实现
+}
+
+MainActivity  具体的activity
+@Inject
+MainPresenter mPresenter;//注入presenter
+
+//必须重写的方法
+initVariables()
+getLayoutId()
+initViews(Bundle bundle)
+initEvent()
+initInjector()
+loadData()
+
+showError和showToast已经在BaseActivity中重写过了，若需要可以自己再重写
+
+
+BaseMvpDefaultPageAct
+onCreate{
+	super.onCreate(savedInstanceState);
+	//增加了一个加载数据的ui展示
+	mBaseLoadService = LoadSir.getDefault().register(getContetView(), new Callback.OnReloadListener() {
+		@Override
+		public void onReload(View v) {
+			mBaseLoadService.showCallback(LoadingCallback.class);
+			loadData();
+		}
+	});
+}
+showError(ErrorBundle errorBundle) {
+	loadService.showCallback(ErrorCallback.class);
+}
+
+
+
+-------------------------------------------------------------------------------------------------------
+
+//RxBus
+RxBus.getDefault().toObservable(Enum.class)
+	.compose(this.bindUntilEvent(ActivityEvent.DESTROY))
+	.subscribe(anEnum -> {
+		if (RxRefreshStatus.LOGIN == anEnum) {
+			if (dialog_bindSite != null) {
+				dialog_bindSite.dismiss();
+			}
+			user = App.getInstance().getUser();
+			mPresenter.editUserInfo(mActivity, user.id, user.siteNo);
+		}
+	});
+RxBus.getDefault().post(RxRefreshStatus.LOGIN);
+
+
+-------------------------------------------------------------------------------------------------------
+RxFragment  fragment生命周期管理
+
+BaseFragment implements BaseView, UICallback
+public interface BaseView {
+    void showError(ErrorBundle errorBundle);
+    void showToast(String msg);
+}
+public interface UICallback {
+    int getLayoutId();
+    void initVariables();
+    void initViews(Bundle bundle);
+    void initEvent();
+}
+onCreate(Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+	mBaseActivity = (BaseActivity) getActivity();//上下文变量
+	setCacheView(false);//不缓存view
+	initVariables();//初始化变量，由子类重写
+	user = AndroidApplication.getInstance().getUser();//获取user
+}
+onCreateView() {
+	if (cacheView) {
+		if (rootView == null) {
+			rootView = inflater.inflate(getLayoutId(), null);
+			unbinder = ButterKnife.bind(this, rootView);
+		} else {
+			ViewUtils.removeSelfFromParent(rootView);
+		}
+	} else {
+		rootView = inflater.inflate(getLayoutId(), null);
+		unbinder = ButterKnife.bind(this, rootView);
+	}
+	return rootView;
+}
+onActivityCreated() {
+	super.onActivityCreated(savedInstanceState);
+	initViews(savedInstanceState);
+	initEvent();
+}
+showError和showToast已经在BaseFragment中重写过了，若需要可以自己再重写
+
+BaseMvpFragment  将dagger2依赖注入通过抽象方法提取出来，由具体的Fragement去实现
+onCreate() {
+	super.onCreate(savedInstanceState);
+	initFragmentComponent();//注入dagger2
+	mPresenter = initInjector();//获取presenter对象；必须由子类实现提供具体的presenter
+	mPresenter.attachView(this);//把presenter和对应的view一一绑定
+}
+onActivityCreated() {
+	super.onActivityCreated(savedInstanceState);
+	loadData();//加载各个fragment需要的数据，必须由子类根据具体情况实现
+}
+
+HomeFra  具体的fragment
+@Inject
+HomePagePresenter mPresenter;
+//必须重写的方法
+initVariables()
+getLayoutId()
+initViews(Bundle bundle)
+initEvent()
+initInjector()
+loadData()
+showError和showToast已经在BaseFragment中重写过了，若需要可以自己再重写
+
+BaseMvpDefaultFragment
+onViewCreated() {
+	super.onViewCreated(view, savedInstanceState);
+	//增加了一个加载数据的ui展示
+	loadService = LoadSir.getDefault().register(getRootView(), new Callback.OnReloadListener() {
+		@Override
+		public void onReload(View v) {
+			loadService.showCallback(LoadingCallback.class);
+			loadData();
+		}
+	});
+}
+showError(ErrorBundle errorBundle) {
+	loadService.showCallback(ErrorCallback.class);
+}
+
+-------------------------------------------------------------------------------------------------------
+
+VideoFra
+分为：VideoForHikFra    VideoForZnFra
+布局：R.layout.fra_list_norefresh     RecyclerView + BaseQuickAdapter + EchelonLayoutManager
+
+VideoForHikFra---》VideoPlayAct---》R.layout.act_camera
+
+VideoForZnFra分以下两种：
+VideoForZNCommonPlayAct---》R.layout.act_cameradetail_zncommon
+VideoForZNPlayAct---》R.layout.act_camerazndetail
+
+MsgReportFra分以下两种：
+SpicalWorkFra  //特殊作业
+有3个fab;目前只实现了两个：特种作业，三类人员；specialUserAdapter，sanLeiUserAdapter
+TroubleFra	//施工报备
+</string>
 </resources>
