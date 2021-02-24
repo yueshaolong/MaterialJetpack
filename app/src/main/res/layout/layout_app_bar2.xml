@@ -11,7 +11,7 @@
     android:layout_height="wrap_content"
     android:background="@color/blue"
     app:elevation="0dp"
-    android:theme="@style/AppTheme.AppBarOverlay">
+    android:theme="@style/AppBarOverlay">
 
     <androidx.appcompat.widget.Toolbar
         app:contentInsetStart="0dp"
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:minHeight="?attr/actionBarSize"
-        app:popupTheme="@style/AppTheme.PopupOverlay">
+        app:popupTheme="@style/PopupOverlay">
 
         <RelativeLayout
             android:layout_width="match_parent"

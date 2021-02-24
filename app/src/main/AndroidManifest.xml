@@ -51,7 +51,7 @@
         </activity>
         <activity android:name=".shizhan.view.databinding.ListActivity"/>
         <activity android:name=".shizhan.view.databinding.MListActivity"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/ChenJinShiTheme"/>
         <activity android:name=".shizhan.view.databinding.ToolbarActivity"
             android:theme="@style/AppTheme"/>
         <activity android:name=".shizhan.view.databinding.PagingListActivity"/>

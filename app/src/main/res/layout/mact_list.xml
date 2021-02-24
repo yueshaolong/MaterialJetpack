@@ -4,6 +4,9 @@
 
     <data>
         <variable
+            name="toolBarViewModel"
+            type="com.ysl.materialjetpack.shizhan.viewmodel.ToolBarViewModel" />
+        <variable
             name="articleViewModel"
             type="com.ysl.materialjetpack.shizhan.viewmodel.ArticleViewModel" />
     </data>
@@ -14,16 +17,21 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
             android:fitsSystemWindows="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+<!--                app:toolbarId="@id/toolbar"-->
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:titleEnabled="false"
-                app:contentScrim="?attr/colorPrimary"
+                app:title="adc"
+                app:collapsedTitleGravity="center"
+                app:expandedTitleGravity="left|bottom"
+                app:contentScrim="@color/colorPrimary"
                 android:fitsSystemWindows="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="250dp">
                 <ImageView
                     app:layout_collapseMode="parallax"
                     android:src="@mipmap/top"
@@ -31,28 +39,31 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"/>
-                <androidx.appcompat.widget.Toolbar
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
                     app:layout_collapseMode="pin"
                     app:contentInsetStart="0dp"
-                    app:title="标题"
-                    app:titleTextColor="@color/white"
-                    app:titleTextAppearance="@style/ToolbarTitle"
-                    app:subtitle="副标题"
-                    app:subtitleTextColor="@color/white"
-                    app:subtitleTextAppearance="@style/ToolbarSubtitle"
+                    app:contentInsetEnd="0dp"
                     app:navigationContentDescription="返回"
                     app:contentInsetStartWithNavigation="0dp"
-                    app:navigationIcon="@mipmap/action_button_back_normal"
                     app:popupTheme="@style/ToolbarPopupTheme"
+                    app:navigationIcon="@mipmap/action_button_back_normal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-<!--                    <TextView-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="100dp"-->
-<!--                        android:text="我是标题"-->
-<!--                        android:gravity="center"-->
-<!--                        android:background="@color/red"/>-->
-                </androidx.appcompat.widget.Toolbar>
+                    android:layout_height="?attr/actionBarSize">
+<!--                    app:menu="@menu/main"-->
+<!--                    app:title="@{String.valueOf(articleViewModel.article.curPage)+'页',default=标题}"-->
+<!--                    app:titleTextAppearance="@style/ToolbarTitle"-->
+<!--                    app:subtitle="@{String.valueOf(articleViewModel.article.size),default=副标题}"-->
+<!--                    app:subtitleTextAppearance="@style/ToolbarSubtitle"-->
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(articleViewModel.article.curPage)+'页'+'/'+String.valueOf(articleViewModel.article.total)+'页',default=标题}"
+                        android:gravity="center"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@android:color/transparent"/>
+                </com.google.android.material.appbar.MaterialToolbar>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 

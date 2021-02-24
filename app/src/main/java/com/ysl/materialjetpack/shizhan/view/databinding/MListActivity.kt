@@ -5,18 +5,19 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.Window
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
+import com.google.android.material.appbar.AppBarLayout
 import com.ysl.materialjetpack.R
 import com.ysl.materialjetpack.databinding.ArticleItemBinding
 import com.ysl.materialjetpack.databinding.MactListBinding
 import com.ysl.materialjetpack.shizhan.model.Article
 import com.ysl.materialjetpack.shizhan.view.weiget.RecyclerViewSpacesItemDecoration
 import com.ysl.materialjetpack.shizhan.viewmodel.ArticleViewModel
+import com.ysl.materialjetpack.shizhan.viewmodel.ToolBarViewModel
 import xyz.bboylin.universialtoast.UniversalToast
 
 class MListActivity : AppCompatActivity() {
@@ -25,6 +26,7 @@ class MListActivity : AppCompatActivity() {
     }
 
     private val articleViewModel : ArticleViewModel by viewModels()
+    private val toolBarViewModel : ToolBarViewModel by viewModels()
     private var refresh: Boolean = true
     private val adapter =
         object : BaseQuickAdapter<Article, BaseDataBindingHolder<ArticleItemBinding>>(R.layout.article_item){
@@ -40,12 +42,25 @@ class MListActivity : AppCompatActivity() {
     lateinit var layoutView: View
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestWindowFeature(Window.FEATURE_NO_TITLE) //设置无ActionBar
-        if (Build.VERSION.SDK_INT >= 21) {//透明状态栏效果
-            val decorView = window.decorView
-            val option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            decorView.systemUiVisibility = option
-            window.statusBarColor = Color.TRANSPARENT
+
+        if (Build.VERSION.SDK_INT >= 21) {//状态栏导航栏悬浮于activity之上
+            window.decorView.systemUiVisibility = (
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE//保持整个View稳定, 常跟bar 悬浮, 隐藏共用, 使View不会因为SystemUI的变化而做layout
+
+//                    or View.SYSTEM_UI_FLAG_LOW_PROFILE//隐藏状态栏图标
+
+//                    or View.SYSTEM_UI_FLAG_FULLSCREEN//隐藏状态栏
+                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN//状态栏悬浮于activity之上
+
+                    or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR//状态栏字体浅色
+                    or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR//导航栏字体浅色
+
+//                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION//隐藏导航栏
+                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION//导航栏悬浮于activity之上
+
+//                    or View.SYSTEM_UI_FLAG_IMMERSIVE//呼出隐藏的bar后不会再隐藏掉
+//                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY//呼出隐藏的bar后会自动再隐藏掉
+                    )
         }
 
         binding = DataBindingUtil.inflate(layoutInflater, getLayoutId(), null, true)
@@ -65,7 +80,8 @@ class MListActivity : AppCompatActivity() {
     }
 
      fun initViewModel() {
-        binding.articleViewModel = articleViewModel
+         binding.toolBarViewModel = toolBarViewModel
+         binding.articleViewModel = articleViewModel
     }
 
      fun initViews(bundle: Bundle?) {
@@ -89,6 +105,11 @@ class MListActivity : AppCompatActivity() {
                 R.id.tv_content -> showToast(article.title)
             }
         }
+
+//         val title: TextView = binding.toolbar.getChildAt(0) as TextView
+//         title.layoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT
+//         title.gravity = Gravity.CENTER
+
     }
     fun showToast(toast: String) {
         UniversalToast.makeText(this, toast, UniversalToast.LENGTH_SHORT).showWarning()
@@ -112,6 +133,79 @@ class MListActivity : AppCompatActivity() {
                 adapter.addData(it.datas)
             }
         }
+
+         binding.appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener
+         { appBarLayout, verticalOffset ->
+             if (verticalOffset > -appBarLayout.totalScrollRange/2){
+                 binding.title.setTextColor(Color.BLACK)
+//                     binding.toolbar.setTitleTextAppearance(this, R.style.ToolbarTitle)
+                 binding.toolbar.navigationIcon = getDrawable(R.mipmap.action_button_back_pressed)
+                 window.decorView.systemUiVisibility = (
+//                             View.SYSTEM_UI_FLAG_LAYOUT_STABLE//保持整个View稳定, 常跟bar 悬浮, 隐藏共用, 使View不会因为SystemUI的变化而做layout
+//                    or View.SYSTEM_UI_FLAG_LOW_PROFILE//隐藏状态栏图标
+//                    or View.SYSTEM_UI_FLAG_FULLSCREEN//隐藏状态栏
+//                                     or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN//状态栏悬浮于activity之上
+                         /*or*/ View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR//状态栏字体浅色
+                         or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR//导航栏字体浅色
+//                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION//隐藏导航栏
+//                                     or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION//导航栏悬浮于activity之上
+//                    or View.SYSTEM_UI_FLAG_IMMERSIVE//呼出隐藏的bar后不会再隐藏掉
+//                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY//呼出隐藏的bar后会自动再隐藏掉
+                         )
+             }else{
+                 binding.title.setTextColor(Color.WHITE)
+//                     binding.toolbar.setTitleTextAppearance(this, R.style.ToolbarSubtitle)
+                 binding.toolbar.navigationIcon = getDrawable(R.mipmap.action_button_back_normal)
+                 window.decorView.systemUiVisibility = (
+                         View.SYSTEM_UI_FLAG_LAYOUT_STABLE//保持整个View稳定, 常跟bar 悬浮, 隐藏共用, 使View不会因为SystemUI的变化而做layout
+//                    or View.SYSTEM_UI_FLAG_LOW_PROFILE//隐藏状态栏图标
+//                    or View.SYSTEM_UI_FLAG_FULLSCREEN//隐藏状态栏
+                                 or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN//状态栏悬浮于activity之上
+//                                     or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR//状态栏字体浅色
+//                                     or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR//导航栏字体浅色
+//                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION//隐藏导航栏
+                                 or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION//导航栏悬浮于activity之上
+//                    or View.SYSTEM_UI_FLAG_IMMERSIVE//呼出隐藏的bar后不会再隐藏掉
+//                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY//呼出隐藏的bar后会自动再隐藏掉
+                         )
+             }
+//             when (verticalOffset) {
+//                 0 -> {//展开状态
+//                     binding.title.setTextColor(Color.BLACK)
+////                     binding.toolbar.setTitleTextAppearance(this, R.style.ToolbarTitle)
+//                     binding.toolbar.navigationIcon = getDrawable(R.mipmap.action_button_back_pressed)
+//                     window.decorView.systemUiVisibility = (
+////                             View.SYSTEM_UI_FLAG_LAYOUT_STABLE//保持整个View稳定, 常跟bar 悬浮, 隐藏共用, 使View不会因为SystemUI的变化而做layout
+////                    or View.SYSTEM_UI_FLAG_LOW_PROFILE//隐藏状态栏图标
+////                    or View.SYSTEM_UI_FLAG_FULLSCREEN//隐藏状态栏
+////                                     or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN//状态栏悬浮于activity之上
+//                                     /*or*/ View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR//状态栏字体浅色
+//                                     or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR//导航栏字体浅色
+////                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION//隐藏导航栏
+////                                     or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION//导航栏悬浮于activity之上
+////                    or View.SYSTEM_UI_FLAG_IMMERSIVE//呼出隐藏的bar后不会再隐藏掉
+////                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY//呼出隐藏的bar后会自动再隐藏掉
+//                             )
+//                 }
+//                 -appBarLayout.totalScrollRange -> {//折叠状态
+//                     binding.title.setTextColor(Color.WHITE)
+////                     binding.toolbar.setTitleTextAppearance(this, R.style.ToolbarSubtitle)
+//                     binding.toolbar.navigationIcon = getDrawable(R.mipmap.action_button_back_normal)
+//                     window.decorView.systemUiVisibility = (
+//                             View.SYSTEM_UI_FLAG_LAYOUT_STABLE//保持整个View稳定, 常跟bar 悬浮, 隐藏共用, 使View不会因为SystemUI的变化而做layout
+////                    or View.SYSTEM_UI_FLAG_LOW_PROFILE//隐藏状态栏图标
+////                    or View.SYSTEM_UI_FLAG_FULLSCREEN//隐藏状态栏
+//                                     or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN//状态栏悬浮于activity之上
+////                                     or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR//状态栏字体浅色
+////                                     or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR//导航栏字体浅色
+////                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION//隐藏导航栏
+//                                     or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION//导航栏悬浮于activity之上
+////                    or View.SYSTEM_UI_FLAG_IMMERSIVE//呼出隐藏的bar后不会再隐藏掉
+////                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY//呼出隐藏的bar后会自动再隐藏掉
+//                             )
+//                 }
+//             }
+         })
     }
 
      fun initData() {
