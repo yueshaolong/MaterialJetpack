@@ -4,10 +4,11 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
-import android.view.Window
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +30,7 @@ import io.reactivex.functions.Consumer
 import xyz.bboylin.universialtoast.UniversalToast
 import java.util.concurrent.TimeUnit
 
+
 abstract class BaseActivity2<T : ViewDataBinding, VB : BaseViewModel> : AppCompatActivity() {
     lateinit var baseBinding: ActBase2Binding
     lateinit var binding: T
@@ -42,7 +44,21 @@ abstract class BaseActivity2<T : ViewDataBinding, VB : BaseViewModel> : AppCompa
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestWindowFeature(Window.FEATURE_NO_TITLE) //设置无ActionBar
+        if (Build.VERSION.SDK_INT >= 21) {//状态栏导航栏悬浮于activity之上
+            window.statusBarColor = Color.TRANSPARENT
+            window.decorView.systemUiVisibility = (
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE//保持整个View稳定, 常跟bar 悬浮, 隐藏共用, 使View不会因为SystemUI的变化而做layout
+//                or View.SYSTEM_UI_FLAG_LOW_PROFILE//隐藏状态栏图标
+//                or View.SYSTEM_UI_FLAG_FULLSCREEN//隐藏状态栏
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN//状态栏悬浮于activity之上
+//                or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR//状态栏字体浅色
+//                or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR//导航栏字体浅色
+//                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION//隐藏导航栏
+//                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION//导航栏悬浮于activity之上
+//                or View.SYSTEM_UI_FLAG_IMMERSIVE//呼出隐藏的bar后不会再隐藏掉
+//                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY//呼出隐藏的bar后会自动再隐藏掉
+            )
+        }
         mActivity = this
         imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
 

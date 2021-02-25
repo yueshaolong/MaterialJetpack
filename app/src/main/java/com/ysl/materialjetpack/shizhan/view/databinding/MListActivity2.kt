@@ -4,23 +4,27 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.View
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
 import com.google.android.material.appbar.AppBarLayout
 import com.ysl.materialjetpack.R
 import com.ysl.materialjetpack.databinding.ArticleItemBinding
-import com.ysl.materialjetpack.databinding.MactListBinding
+import com.ysl.materialjetpack.databinding.MactList2Binding
 import com.ysl.materialjetpack.shizhan.model.Article
 import com.ysl.materialjetpack.shizhan.view.weiget.RecyclerViewSpacesItemDecoration
 import com.ysl.materialjetpack.shizhan.viewmodel.ArticleViewModel
 import com.ysl.materialjetpack.shizhan.viewmodel.ToolBarViewModel
 import xyz.bboylin.universialtoast.UniversalToast
 
-class MListActivity : AppCompatActivity() {
+class MListActivity2 : AppCompatActivity() {
     companion object{
         const val TAG = "MListActivity"
     }
@@ -38,7 +42,7 @@ class MListActivity : AppCompatActivity() {
                 }
             }
         }
-    lateinit var binding: MactListBinding
+    lateinit var binding: MactList2Binding
     lateinit var layoutView: View
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +61,7 @@ class MListActivity : AppCompatActivity() {
     }
 
     fun getLayoutId(): Int {
-        return R.layout.mact_list
+        return R.layout.mact_list2
     }
 
      fun initViewModel() {
@@ -117,16 +121,16 @@ class MListActivity : AppCompatActivity() {
 
          binding.appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener
          { appBarLayout, verticalOffset ->
-             if (verticalOffset > -appBarLayout.totalScrollRange/2){
-                 binding.title.setTextColor(Color.BLACK)
-                 binding.toolbar.navigationIcon = getDrawable(R.mipmap.action_button_back_pressed)
-                 binding.title.visibility = View.GONE
+             if (verticalOffset > -appBarLayout.totalScrollRange / 2) {
+//                 binding.title.setTextColor(Color.BLACK)
+//                 binding.title.visibility = View.GONE
+//                 binding.toolbar.navigationIcon = getDrawable(R.mipmap.action_button_back_pressed)
 
                  chenJinShi(true)
-             }else{
-                 binding.title.setTextColor(Color.WHITE)
-                 binding.toolbar.navigationIcon = getDrawable(R.mipmap.action_button_back_normal)
-                 binding.title.visibility = View.VISIBLE
+             } else {
+//                 binding.title.setTextColor(Color.WHITE)
+//                 binding.title.visibility = View.VISIBLE
+//                 binding.toolbar.navigationIcon = getDrawable(R.mipmap.action_button_back_normal)
                  chenJinShi(false)
              }
          })
@@ -140,7 +144,7 @@ class MListActivity : AppCompatActivity() {
         articleViewModel.loadArticle(true, 0, true)
     }
 
-    private fun chenJinShi(isLight : Boolean) {
+    private fun chenJinShi(isLight: Boolean) {
         window.statusBarColor = Color.TRANSPARENT
 //        window.navigationBarColor = Color.TRANSPARENT
         if (Build.VERSION.SDK_INT >= 21) {//状态栏导航栏悬浮于activity之上

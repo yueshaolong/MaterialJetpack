@@ -1,5 +1,6 @@
 package com.ysl.materialjetpack.shizhan.view.databinding
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -25,6 +26,9 @@ class WanActivity2 : BaseActivity2<ActWan2Binding, BannerViewModel>() {
         binding.wanViewModel = wanViewModel
     }
     override fun initViews(bundle: Bundle?) {
+        //默认蓝色状态栏，也可以单独设置状态栏颜色
+        baseBinding.layoutAppBar.appbar.setBackgroundColor(Color.GREEN)
+
         showTitle()
         toolBarViewModel.centerText.value = "首页"
 
@@ -57,9 +61,16 @@ class WanActivity2 : BaseActivity2<ActWan2Binding, BannerViewModel>() {
     }
     fun clickListener(view: View){
         when(view.id){
-            R.id.btn_list -> toActivity(MListActivity::class.java)
+            R.id.btn_list -> {
+                toActivity(MListActivity::class.java)
+                showToast("lalalal")
+            }
+            R.id.btn_list2 -> {
+                toActivity(MListActivity2::class.java)
+            }
             R.id.paging_list -> toActivity(PagingListActivity::class.java)
-            R.id.tv_hilt -> toActivity(HiltActivity::class.java)
+            R.id.toolbar -> toActivity(ToolbarActivity::class.java)
+            R.id.hilt -> toActivity(HiltActivity::class.java)
         }
     }
     override fun initData() {

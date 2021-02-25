@@ -39,6 +39,12 @@
             android:layout_height="50dp"
             android:onClick="clickListener"
             android:text="列表" />
+        <Button
+            android:id="@+id/btn_list2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:onClick="clickListener"
+            android:text="列表2" />
 
         <Button
             android:id="@+id/paging_list"
@@ -47,13 +53,18 @@
             android:onClick="clickListener"
             android:text="分页列表" />
 
-        <TextView
-            android:id="@+id/tv_hilt"
+        <Button
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:onClick="clickListener"
-            android:gravity="center"
-            android:background="@color/font_color_main"
+            android:text="toolbar" />
+
+        <Button
+            android:id="@+id/hilt"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:onClick="clickListener"
             android:text="Hilt" />
 
         <FrameLayout
