@@ -1,6 +1,7 @@
 package com.ysl.materialjetpack.shizhan.viewmodel
 
 import android.app.Application
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.ysl.materialjetpack.shizhan.api.WanApi
@@ -9,6 +10,17 @@ import com.ysl.materialjetpack.shizhan.model.BannerVO
 
 class BannerViewModel constructor(application: Application) : BaseViewModel(application) {
 
+    val where: MutableLiveData<List<String>> by lazy {
+//        MutableLiveData<List<String>>(mutableListOf("请求数据","列表1","列表2","分页","toolbar","hilt"))
+
+        val d = mutableListOf<String>()
+        for (i in 1..10) {
+            if (i > 3) break
+            Log.i(TAG, "i: $i")
+            d.addAll(mutableListOf("请求数据","列表1","列表2","分页","toolbar","hilt"))
+        }
+        MutableLiveData(d)
+    }
     var banner: MutableLiveData<List<BannerVO>> = MutableLiveData()
 
     fun loadBanner(isActivity: Boolean) {

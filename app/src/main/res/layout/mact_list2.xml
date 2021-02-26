@@ -90,13 +90,13 @@
                     app:contentInsetStart="0dp"
                     app:contentInsetEnd="0dp"
                     app:popupTheme="@style/ToolbarPopupTheme"
+                    app:navigationContentDescription="返回"
+                    app:navigationIcon="@mipmap/action_button_back_normal"
+                    app:menu="@menu/main"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize">
 <!--                    app:contentInsetEndWithActions="0dp"-->
 <!--                    app:contentInsetStartWithNavigation="0dp"-->
-<!--                    app:navigationContentDescription="返回"-->
-<!--                    app:navigationIcon="@mipmap/action_button_back_normal"-->
-<!--                    app:menu="@menu/main"-->
 <!--                    app:title="@{String.valueOf(articleViewModel.article.curPage)+'页',default=标题}"-->
 <!--                    app:titleTextAppearance="@style/ToolbarTitle"-->
 <!--                    app:subtitle="@{String.valueOf(articleViewModel.article.size),default=副标题}"-->

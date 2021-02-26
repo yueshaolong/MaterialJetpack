@@ -193,4 +193,11 @@ SpicalWorkFra  //特殊作业
 有3个fab;目前只实现了两个：特种作业，三类人员；specialUserAdapter，sanLeiUserAdapter
 TroubleFra	//施工报备
 </string>
+
+	<string name="request">请求数据</string>
+	<string name="list1">列表1</string>
+	<string name="list2">列表2</string>
+	<string name="paging">分页</string>
+	<string name="toolbar">toolbar</string>
+	<string name="hilt">hilt</string>
 </resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="where"
+            type="java.lang.String" />
+    </data>
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@android:color/holo_green_light"
+    android:gravity="center"
+    android:textSize="16sp"
+    android:textColor="@color/blue"
+    android:textStyle="bold"
+    android:text="@{where}"/>
+</layout>

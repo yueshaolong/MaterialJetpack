@@ -8,70 +8,51 @@
             type="com.ysl.materialjetpack.shizhan.viewmodel.BannerViewModel" />
 
     </data>
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/tv_content"
+        android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center"
-            android:text="@{wanViewModel.banner[0].title,default=hahah}" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:text="@{wanViewModel.banner[0].title,default=hahah}" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:src="@mipmap/error"/>
+            <TextView
+                android:id="@+id/tv_url"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:text="@{wanViewModel.banner[0].url,default=sdkd}" />
 
-        <TextView
-            android:id="@+id/tv_url"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center"
-            android:text="@{wanViewModel.banner[0].url,default=sdkd}" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv"
+                android:background="@android:color/holo_red_light"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-        <Button
-            android:id="@+id/btn_request"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:onClick="@{wanViewModel::click}"
-            android:text="请求" />
 
-        <Button
-            android:id="@+id/btn_list"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:onClick="clickListener"
-            android:text="列表" />
-        <Button
-            android:id="@+id/btn_list2"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:onClick="clickListener"
-            android:text="列表2" />
+<!--        <Button-->
+<!--            android:id="@+id/hilt"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:onClick="clickListener"-->
+<!--            android:text="Hilt" />-->
 
-        <Button
-            android:id="@+id/paging_list"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:onClick="clickListener"
-            android:text="分页列表" />
+            <FrameLayout
+                android:id="@+id/id_container"
+                android:background="@color/blue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-        <Button
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:onClick="clickListener"
-            android:text="toolbar" />
-
-        <Button
-            android:id="@+id/hilt"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:onClick="clickListener"
-            android:text="Hilt" />
-
-        <FrameLayout
-            android:id="@+id/id_container"
-            android:background="@color/blue"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>
