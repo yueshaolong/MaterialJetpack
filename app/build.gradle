@@ -52,10 +52,10 @@ android {
         develop {
             applicationId 'com.ysl.materialjetpack'
             buildConfigField "int", "ENV_TYPE", "1"
-            resValue "string", "app_name", "开发-双重预防体系"
+//            resValue "string", "app_name", "开发-双重预防体系"
             manifestPlaceholders = [
                     //极光推送的相关信息配置，便于清单文件中的引用
-                    JPUSH_PKGNAME : "com.ysl.materialjetpack",
+                    JSHARE_PKGNAME : "com.ysl.materialjetpack",
                     JPUSH_APPKEY : "f0ad502e7da679a00ba6af96", //JPush 上注册的包名对应的 Appkey.
                     JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
                     WECHAT_APPID : "",//微信平台appid
