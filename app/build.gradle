@@ -32,6 +32,13 @@ android {
                                      "$projectDir/schemas".toString()]
             }
         }
+
+        ndk {
+            // 设置支持的 SO 库构架，注意这里要根据你的实际情况来设置
+            abiFilters 'armeabi-v7a'//,'armeabi','x86'
+        }
+        //必须要保证所有的flavor 都属于同一个维度
+        flavorDimensions "default"
     }
 
     buildTypes {
@@ -39,6 +46,26 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    productFlavors {
+        //开发环境
+        develop {
+            applicationId 'com.ysl.materialjetpack'
+            buildConfigField "int", "ENV_TYPE", "1"
+            resValue "string", "app_name", "开发-双重预防体系"
+            manifestPlaceholders = [
+                    //极光推送的相关信息配置，便于清单文件中的引用
+                    JPUSH_PKGNAME : "com.ysl.materialjetpack",
+                    JPUSH_APPKEY : "f0ad502e7da679a00ba6af96", //JPush 上注册的包名对应的 Appkey.
+                    JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+                    WECHAT_APPID : "",//微信平台appid
+                    app_icon: "@mipmap/logo"
+            ]
+        }
+    }
+    //全局配置文件
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.2'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -174,4 +201,7 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
     implementation project(':loadsirlibrary')
 
+    implementation 'cn.jiguang.sdk:jcore:2.1.2'
+    implementation 'cn.jiguang.sdk:jshare:1.8.0'
+    implementation 'cn.jiguang.sdk:jshare-wechatmodel:1.8.0'
 }

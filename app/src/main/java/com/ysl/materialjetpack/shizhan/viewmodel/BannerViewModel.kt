@@ -11,7 +11,14 @@ import com.ysl.materialjetpack.shizhan.model.BannerVO
 class BannerViewModel constructor(application: Application) : BaseViewModel(application) {
 
     val where: MutableLiveData<List<String>> by lazy {
-//        MutableLiveData<List<String>>(mutableListOf("请求数据","列表1","列表2","分页","toolbar","hilt"))
+        val mutableListOf = mutableListOf("请求数据", "列表1", "列表2", "分页", "toolbar", "hilt")
+        for (s in mutableListOf) {
+            Log.i(TAG, "s=: $s")
+        }
+
+        repeat(3){//从0开始循环，循环3次
+            Log.i(TAG, "i=: $it")
+        }
 
         val d = mutableListOf<String>()
         for (i in 1..10) {

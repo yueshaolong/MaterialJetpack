@@ -134,6 +134,16 @@ class MListActivity : AppCompatActivity() {
          binding.toolbar.setNavigationOnClickListener {
              finish()
          }
+         binding.toolbar.setOnMenuItemClickListener { item ->
+             when(item.itemId){
+                 R.id.action_share -> {
+                     Log.i(TAG, "initEvent: ")
+
+                     true
+                 }
+                 else -> false
+             }
+         }
     }
 
      fun initData() {

@@ -54,6 +54,12 @@
         <activity android:name=".shizhan.view.databinding.MListActivity2"/>
         <activity android:name=".shizhan.view.databinding.ToolbarActivity"/>
         <activity android:name=".shizhan.view.databinding.PagingListActivity"/>
+
+        <!-- Optional 微信分享回调,wxapi必须在包名路径下，否则回调不成功-->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:exported="true" />
     </application>
 
 </manifest>
