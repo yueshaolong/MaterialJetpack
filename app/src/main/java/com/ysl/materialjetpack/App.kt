@@ -30,8 +30,8 @@ class App : Application(){
         JShareInterface.setDebugMode(true)
         val platformConfig = PlatformConfig()
                 .setWechat("wxc40e16f3ba6ebabc", "dcad950cd0633a27e353477c4ec12e7a")//TODO
-//                .setQQ("1106011004", "YIbPvONmBQBZUGaN")
-//                .setSinaWeibo("374535501", "baccd12c166f1df96736b51ffbf600a2", "https://www.jiguang.cn")
+                .setQQ("1111493049", "ofKWNzjtci0ev4r5")
+                .setSinaWeibo("374535501", "baccd12c166f1df96736b51ffbf600a2", "https://www.jiguang.cn")
 //                .setFacebook("1847959632183996", "JShareDemo")
 //                .setTwitter("fCm4SUcgYI1wUACGxB2erX5pL", "NAhzwYCgm15FBILWqXYDKxpryiuDlEQWZ5YERnO1D89VBtZO6q")
 //                .setJchatPro("1847959632183996")

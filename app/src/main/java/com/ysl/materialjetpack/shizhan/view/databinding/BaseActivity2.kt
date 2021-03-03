@@ -14,6 +14,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.FragmentActivity
 import com.blankj.utilcode.util.KeyboardUtils
 import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir
@@ -76,7 +77,6 @@ abstract class BaseActivity2<T : ViewDataBinding, VB : BaseViewModel> : AppCompa
 
         initViews(savedInstanceState)
         initEvent()
-        requestPermission()
         initData()
     }
 
@@ -155,20 +155,13 @@ abstract class BaseActivity2<T : ViewDataBinding, VB : BaseViewModel> : AppCompa
         startActivity(Intent(this, clazz))
     }
 
-    @SuppressLint("CheckResult")
-    protected open fun requestPermission(){
-        val rxPermissions = RxPermissions(this)
-        rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE)
-                .subscribe { granted ->
-                    if (granted) {
-
-                    } else {
-                        showDialog()
-                    }
-                }
-    }
-    protected fun showDialog() {
+    companion object{
+        fun requestPermission(activity: FragmentActivity, consumer: Consumer<Boolean>){
+            RxPermissions(activity).request(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE).subscribe(consumer)
+        }
+        fun showDialog() {
+        }
     }
 
     override fun finish() {

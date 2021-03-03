@@ -58,6 +58,7 @@ android {
                     JSHARE_PKGNAME : "com.ysl.materialjetpack",
                     JPUSH_APPKEY : "f0ad502e7da679a00ba6af96", //JPush 上注册的包名对应的 Appkey.
                     JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+                    TENCENT_APPID : "1111493049",
                     WECHAT_APPID : "",//微信平台appid
                     app_icon: "@mipmap/logo"
             ]
@@ -73,6 +74,11 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
     }
 }
 //plugins {
@@ -200,8 +206,11 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.9.0'
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
     implementation project(':loadsirlibrary')
+//    implementation project(':sharelibrary')
 
     implementation 'cn.jiguang.sdk:jcore:2.1.2'
     implementation 'cn.jiguang.sdk:jshare:1.8.0'
     implementation 'cn.jiguang.sdk:jshare-wechatmodel:1.8.0'
+    implementation 'cn.jiguang.sdk:jshare-qqmodel:1.8.0'
+    implementation 'cn.jiguang.sdk:jshare-sinamodel:1.8.0'
 }

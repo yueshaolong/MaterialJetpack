@@ -1,15 +1,11 @@
 package com.ysl.materialjetpack.shizhan.view.databinding
 
-import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Message
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -17,10 +13,6 @@ import cn.jiguang.share.android.api.JShareInterface
 import cn.jiguang.share.android.api.PlatActionListener
 import cn.jiguang.share.android.api.Platform
 import cn.jiguang.share.android.api.ShareParams
-import cn.jiguang.share.android.utils.Logger
-import cn.jiguang.share.wechat.Wechat
-import cn.jiguang.share.wechat.WechatFavorite
-import cn.jiguang.share.wechat.WechatMoments
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
 import com.google.android.material.appbar.AppBarLayout
@@ -28,9 +20,6 @@ import com.ysl.materialjetpack.R
 import com.ysl.materialjetpack.databinding.ArticleItemBinding
 import com.ysl.materialjetpack.databinding.MactListBinding
 import com.ysl.materialjetpack.shizhan.model.Article
-import com.ysl.materialjetpack.shizhan.view.share.ShareBoard
-import com.ysl.materialjetpack.shizhan.view.share.ShareBoardlistener
-import com.ysl.materialjetpack.shizhan.view.share.SnsPlatform
 import com.ysl.materialjetpack.shizhan.view.weiget.RecyclerViewSpacesItemDecoration
 import com.ysl.materialjetpack.shizhan.viewmodel.ArticleViewModel
 import com.ysl.materialjetpack.shizhan.viewmodel.ToolBarViewModel
@@ -155,8 +144,32 @@ class MListActivity : AppCompatActivity() {
          binding.toolbar.setOnMenuItemClickListener { item ->
              when(item.itemId){
                  R.id.action_share -> {
-                     Log.i(TAG, "initEvent: ")
-                     showBroadView()
+                     Log.i(TAG, "分享------>")
+                     val platformList = JShareInterface.getPlatformList()
+                     for (s in platformList) {
+                         Log.i(TAG, "initEvent: s=$s")
+                         //微信：Wechat，WechatMoments，WechatFavorite
+                         //QQ：QQ，QZone
+                     }
+                     val shareParams = ShareParams()
+                     shareParams.shareType = Platform.SHARE_WEBPAGE
+                     shareParams.title = " 欢迎使用极光社会化组件JShare"
+                     shareParams.text = "JShare SDK支持主流社交平台、帮助开发者轻松实现社会化功能！"
+                     shareParams.url = "https://www.jiguang.cn"
+//                     shareParams.imagePath = "./MaterialJetpack\\app\\src\\main\\res\\mipmap-hdpi\\error.jpg"
+                     JShareInterface.share(platformList[0], shareParams, object : PlatActionListener{
+                         override fun onComplete(p0: Platform?, p1: Int, p2: HashMap<String, Any>?) {
+                            showToast("分享成功")
+                         }
+
+                         override fun onError(p0: Platform?, p1: Int, p2: Int, p3: Throwable?) {
+                            showToast("分享失败")
+                         }
+
+                         override fun onCancel(p0: Platform?, p1: Int) {
+                             showToast("取消分享")
+                         }
+                     })
                      true
                  }
                  else -> false
@@ -193,121 +206,121 @@ class MListActivity : AppCompatActivity() {
     }
 
 
-    private fun showBroadView() {
-        var mShareBoard: ShareBoard? = null
-        if (mShareBoard == null) {
-            mShareBoard = ShareBoard(this)
-            val platforms = JShareInterface.getPlatformList()
-            if (platforms != null) {
-                val var2: Iterator<*> = platforms.iterator()
-                while (var2.hasNext()) {
-                    val temp = var2.next() as String
-                    val snsPlatform: SnsPlatform = createSnsPlatform(temp)
-                    mShareBoard.addPlatform(snsPlatform)
-                }
-            }
-            mShareBoard.setShareboardclickCallback(mShareBoardlistener)
-        }
-        progressDialog.setTitle("请稍候")
-        mShareBoard.show()
-    }
-
-    private val mShareBoardlistener: ShareBoardlistener = ShareBoardlistener { snsPlatform, platform ->
-        progressDialog.show()
-        //这里以分享链接为例
-        val shareParams = ShareParams()
-        shareParams.shareType = Platform.SHARE_WEBPAGE
-        shareParams.title = " 欢迎使用极光社会化组件JShare"
-        shareParams.text = "JShare SDK支持主流社交平台、帮助开发者轻松实现社会化功能！"
-        shareParams.url = "https://www.jiguang.cn"
-//        shareParams.imagePath = "F:\\ThirdPartyProject\\MaterialJetpack\\app\\src\\main\\res\\mipmap-hdpi\\error.jpg"
-        JShareInterface.share(platform, shareParams, mShareListener)
-    }
-
-    private val mShareListener: PlatActionListener = object : PlatActionListener {
-        override fun onComplete(platform: Platform, action: Int, data: HashMap<String, Any>) {
-            if (handler != null) {
-                val message: Message = handler.obtainMessage()
-                message.obj = "分享成功"
-                handler.sendMessage(message)
-            }
-        }
-        private val handler: Handler = object : Handler() {
-            @SuppressLint("HandlerLeak")
-            override fun handleMessage(msg: Message) {
-                val toastMsg = msg.obj as String
-                Toast.makeText(this@MListActivity, toastMsg, Toast.LENGTH_SHORT).show()
-                if (progressDialog != null && progressDialog.isShowing()) {
-                    progressDialog.dismiss()
-                }
-            }
-        }
-        override fun onError(platform: Platform, action: Int, errorCode: Int, error: Throwable) {
-            Logger.e(TAG, "error:$errorCode,msg:$error")
-            if (handler != null) {
-                val message: Message = handler.obtainMessage()
-                message.obj = "分享失败:" + error.message + "---" + errorCode
-                handler.sendMessage(message)
-            }
-        }
-
-        override fun onCancel(platform: Platform, action: Int) {
-            if (handler != null) {
-                val message: Message = handler.obtainMessage()
-                message.obj = "分享取消"
-                handler.sendMessage(message)
-            }
-        }
-    }
-
-
-    fun createSnsPlatform(platformName: String): SnsPlatform {
-        var mShowWord = platformName
-        var mIcon = ""
-        var mGrayIcon = ""
-        if (platformName == Wechat.Name) {
-            mIcon = "jiguang_socialize_wechat"
-            mGrayIcon = "jiguang_socialize_wechat"
-            mShowWord = "jiguang_socialize_text_weixin_key"
-        } else if (platformName == WechatMoments.Name) {
-            mIcon = "jiguang_socialize_wxcircle"
-            mGrayIcon = "jiguang_socialize_wxcircle"
-            mShowWord = "jiguang_socialize_text_weixin_circle_key"
-        } else if (platformName == WechatFavorite.Name) {
-            mIcon = "jiguang_socialize_wxfavorite"
-            mGrayIcon = "jiguang_socialize_wxfavorite"
-            mShowWord = "jiguang_socialize_text_weixin_favorite_key"
-        } /*else if (platformName == SinaWeibo.Name) {
-            mIcon = "jiguang_socialize_sina"
-            mGrayIcon = "jiguang_socialize_sina"
-            mShowWord = "jiguang_socialize_text_sina_key"
-        } else if (platformName == SinaWeiboMessage.Name) {
-            mIcon = "jiguang_socialize_sina"
-            mGrayIcon = "jiguang_socialize_sina"
-            mShowWord = "jiguang_socialize_text_sina_msg_key"
-        } else if (platformName == QQ.Name) {
-            mIcon = "jiguang_socialize_qq"
-            mGrayIcon = "jiguang_socialize_qq"
-            mShowWord = "jiguang_socialize_text_qq_key"
-        } else if (platformName == QZone.Name) {
-            mIcon = "jiguang_socialize_qzone"
-            mGrayIcon = "jiguang_socialize_qzone"
-            mShowWord = "jiguang_socialize_text_qq_zone_key"
-        } else if (platformName == Facebook.Name) {
-            mIcon = "jiguang_socialize_facebook"
-            mGrayIcon = "jiguang_socialize_facebook"
-            mShowWord = "jiguang_socialize_text_facebook_key"
-        } else if (platformName == FbMessenger.Name) {
-            mIcon = "jiguang_socialize_messenger"
-            mGrayIcon = "jiguang_socialize_messenger"
-            mShowWord = "jiguang_socialize_text_messenger_key"
-        } else if (Twitter.Name.equals(platformName)) {
-            mIcon = "jiguang_socialize_twitter"
-            mGrayIcon = "jiguang_socialize_twitter"
-            mShowWord = "jiguang_socialize_text_twitter_key"
-        } else if (platformName == JChatPro.Name) {
-            mShowWord = "jiguang_socialize_text_jchatpro_key"
-        }*/
-        return ShareBoard.createSnsPlatform(mShowWord, platformName, mIcon, mGrayIcon, 0)
-    }
+//    private fun showBroadView() {
+//        var mShareBoard: ShareBoard? = null
+//        if (mShareBoard == null) {
+//            mShareBoard = ShareBoard(this)
+//            val platforms = JShareInterface.getPlatformList()
+//            if (platforms != null) {
+//                val var2: Iterator<*> = platforms.iterator()
+//                while (var2.hasNext()) {
+//                    val temp = var2.next() as String
+//                    val snsPlatform: SnsPlatform = createSnsPlatform(temp)
+//                    mShareBoard.addPlatform(snsPlatform)
+//                }
+//            }
+//            mShareBoard.setShareboardclickCallback(mShareBoardlistener)
+//        }
+//        progressDialog.setTitle("请稍候")
+//        mShareBoard.show()
+//    }
+//
+//    private val mShareBoardlistener: ShareBoardlistener = ShareBoardlistener { snsPlatform, platform ->
+//        progressDialog.show()
+//        //这里以分享链接为例
+//        val shareParams = ShareParams()
+//        shareParams.shareType = Platform.SHARE_WEBPAGE
+//        shareParams.title = " 欢迎使用极光社会化组件JShare"
+//        shareParams.text = "JShare SDK支持主流社交平台、帮助开发者轻松实现社会化功能！"
+//        shareParams.url = "https://www.jiguang.cn"
+////        shareParams.imagePath = "F:\\ThirdPartyProject\\MaterialJetpack\\app\\src\\main\\res\\mipmap-hdpi\\error.jpg"
+//        JShareInterface.share(platform, shareParams, mShareListener)
+//    }
+//
+//    private val mShareListener: PlatActionListener = object : PlatActionListener {
+//        override fun onComplete(platform: Platform, action: Int, data: HashMap<String, Any>) {
+//            if (handler != null) {
+//                val message: Message = handler.obtainMessage()
+//                message.obj = "分享成功"
+//                handler.sendMessage(message)
+//            }
+//        }
+//        private val handler: Handler = object : Handler() {
+//            @SuppressLint("HandlerLeak")
+//            override fun handleMessage(msg: Message) {
+//                val toastMsg = msg.obj as String
+//                Toast.makeText(this@MListActivity, toastMsg, Toast.LENGTH_SHORT).show()
+//                if (progressDialog != null && progressDialog.isShowing()) {
+//                    progressDialog.dismiss()
+//                }
+//            }
+//        }
+//        override fun onError(platform: Platform, action: Int, errorCode: Int, error: Throwable) {
+//            Logger.e(TAG, "error:$errorCode,msg:$error")
+//            if (handler != null) {
+//                val message: Message = handler.obtainMessage()
+//                message.obj = "分享失败:" + error.message + "---" + errorCode
+//                handler.sendMessage(message)
+//            }
+//        }
+//
+//        override fun onCancel(platform: Platform, action: Int) {
+//            if (handler != null) {
+//                val message: Message = handler.obtainMessage()
+//                message.obj = "分享取消"
+//                handler.sendMessage(message)
+//            }
+//        }
+//    }
+//
+//
+//    fun createSnsPlatform(platformName: String): SnsPlatform {
+//        var mShowWord = platformName
+//        var mIcon = ""
+//        var mGrayIcon = ""
+//        if (platformName == Wechat.Name) {
+//            mIcon = "jiguang_socialize_wechat"
+//            mGrayIcon = "jiguang_socialize_wechat"
+//            mShowWord = "jiguang_socialize_text_weixin_key"
+//        } else if (platformName == WechatMoments.Name) {
+//            mIcon = "jiguang_socialize_wxcircle"
+//            mGrayIcon = "jiguang_socialize_wxcircle"
+//            mShowWord = "jiguang_socialize_text_weixin_circle_key"
+//        } else if (platformName == WechatFavorite.Name) {
+//            mIcon = "jiguang_socialize_wxfavorite"
+//            mGrayIcon = "jiguang_socialize_wxfavorite"
+//            mShowWord = "jiguang_socialize_text_weixin_favorite_key"
+//        } /*else if (platformName == SinaWeibo.Name) {
+//            mIcon = "jiguang_socialize_sina"
+//            mGrayIcon = "jiguang_socialize_sina"
+//            mShowWord = "jiguang_socialize_text_sina_key"
+//        } else if (platformName == SinaWeiboMessage.Name) {
+//            mIcon = "jiguang_socialize_sina"
+//            mGrayIcon = "jiguang_socialize_sina"
+//            mShowWord = "jiguang_socialize_text_sina_msg_key"
+//        } else if (platformName == QQ.Name) {
+//            mIcon = "jiguang_socialize_qq"
+//            mGrayIcon = "jiguang_socialize_qq"
+//            mShowWord = "jiguang_socialize_text_qq_key"
+//        } else if (platformName == QZone.Name) {
+//            mIcon = "jiguang_socialize_qzone"
+//            mGrayIcon = "jiguang_socialize_qzone"
+//            mShowWord = "jiguang_socialize_text_qq_zone_key"
+//        } else if (platformName == Facebook.Name) {
+//            mIcon = "jiguang_socialize_facebook"
+//            mGrayIcon = "jiguang_socialize_facebook"
+//            mShowWord = "jiguang_socialize_text_facebook_key"
+//        } else if (platformName == FbMessenger.Name) {
+//            mIcon = "jiguang_socialize_messenger"
+//            mGrayIcon = "jiguang_socialize_messenger"
+//            mShowWord = "jiguang_socialize_text_messenger_key"
+//        } else if (Twitter.Name.equals(platformName)) {
+//            mIcon = "jiguang_socialize_twitter"
+//            mGrayIcon = "jiguang_socialize_twitter"
+//            mShowWord = "jiguang_socialize_text_twitter_key"
+//        } else if (platformName == JChatPro.Name) {
+//            mShowWord = "jiguang_socialize_text_jchatpro_key"
+//        }*/
+//        return ShareBoard.createSnsPlatform(mShowWord, platformName, mIcon, mGrayIcon, 0)
+//    }
 }
