@@ -70,7 +70,7 @@ public class ShareBoardConfig {
         String btn = "取消";
         this.setShareboardBackgroundColor(Color.WHITE);
         this.setShareboardPostion(SHAREBOARD_POSITION_BOTTOM);
-        //this.setTitleText(title);
+        this.setTitleText(title);
         this.setTitleTextColor(defaultTextColor);
         byte angle = 5;
         this.setMenuItemBackgroundShape(BG_SHAPE_ROUNDED_SQUARE, angle);

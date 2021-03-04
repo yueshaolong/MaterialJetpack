@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
-import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -16,6 +15,8 @@ import android.view.animation.AlphaAnimation;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
+import androidx.viewpager.widget.ViewPager;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -161,7 +162,7 @@ class JGActionFrame extends LinearLayout {
         title.setMaxLines(1);
         title.setEllipsize(TextUtils.TruncateAt.END);
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.topMargin = this.dip2px(20.0F);
+        layoutParams.topMargin = this.dip2px(10.0F);
         title.setLayoutParams(layoutParams);
         return title;
     }
@@ -176,10 +177,9 @@ class JGActionFrame extends LinearLayout {
     }
 
     public IndicatorView createIndicatorView() {
-        int padding = this.dip2px(20.0F);
         IndicatorView indicatorView = new IndicatorView(this.getContext());
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.bottomMargin = padding;
+        layoutParams.bottomMargin = this.dip2px(5.0F);
         indicatorView.setLayoutParams(layoutParams);
         indicatorView.setIndicatorColor(this.mConfig.mIndicatorNormalColor, this.mConfig.mIndicatorSelectedColor);
         indicatorView.setIndicator(3, 5);
@@ -211,9 +211,9 @@ class JGActionFrame extends LinearLayout {
 
             }
         });
-        int height = this.dip2px(50.0F);
+        int height = this.dip2px(40.0F);
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height);
-        layoutParams.bottomMargin = this.dip2px(20.0F);
+        layoutParams.bottomMargin = this.dip2px(0.0F);
         cancelBtn.setLayoutParams(layoutParams);
         return cancelBtn;
     }
@@ -241,7 +241,8 @@ class JGActionFrame extends LinearLayout {
         ViewPager viewPager = null;
 
         try {
-            Class e = Class.forName("android.support.v4.view.ViewPager");
+//            Class e = Class.forName("android.support.v4.view.ViewPager");
+            Class e = Class.forName("androidx.viewpager.widget.ViewPager");
             Class[] parTypes = new Class[]{Context.class};
             Constructor constructor = e.getConstructor(parTypes);
             Object[] pars = new Object[]{this.getContext()};
@@ -255,7 +256,8 @@ class JGActionFrame extends LinearLayout {
 
     private boolean verifyMethodExists() {
         try {
-            Class e = Class.forName("android.support.v4.view.ViewPager");
+//            Class e = Class.forName("android.support.v4.view.ViewPager");
+            Class e = Class.forName("androidx.viewpager.widget.ViewPager");
             Method method = e.getMethod("addOnPageChangeListener", new Class[]{ViewPager.OnPageChangeListener.class});
             if(method != null) {
                 return true;

@@ -6,4 +6,9 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="anim_pop">
+        <item name="android:windowEnterAnimation">@anim/anim_popshow</item>
+        <item name="android:windowExitAnimation">@anim/anim_pophide</item>
+    </style>
+
 </resources>

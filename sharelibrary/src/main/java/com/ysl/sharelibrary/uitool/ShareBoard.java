@@ -5,6 +5,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.view.Gravity;
 import android.view.View;
 
+import com.ysl.sharelibrary.R;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -101,6 +103,7 @@ public class ShareBoard {
         if (this.showatView == null) {
             this.showatView = this.activity.getWindow().getDecorView();
         }
+        this.mShareBoardView.setAnimationStyle(R.style.anim_pop);
         this.mShareBoardView.showAtLocation(this.showatView, Gravity.BOTTOM, 0, 0);
     }
 

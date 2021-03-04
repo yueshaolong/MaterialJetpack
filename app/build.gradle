@@ -33,10 +33,10 @@ android {
             }
         }
 
-        ndk {
+//        ndk {
             // 设置支持的 SO 库构架，注意这里要根据你的实际情况来设置
-            abiFilters 'armeabi-v7a'//,'armeabi','x86'
-        }
+//            abiFilters 'armeabi-v7a'//,'armeabi','x86'
+//        }
         //必须要保证所有的flavor 都属于同一个维度
         flavorDimensions "default"
     }
@@ -55,11 +55,12 @@ android {
 //            resValue "string", "app_name", "开发-双重预防体系"
             manifestPlaceholders = [
                     //极光推送的相关信息配置，便于清单文件中的引用
+                    JPUSH_PKGNAME : "com.ysl.materialjetpack",
                     JSHARE_PKGNAME : "com.ysl.materialjetpack",
                     JPUSH_APPKEY : "f0ad502e7da679a00ba6af96", //JPush 上注册的包名对应的 Appkey.
                     JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
                     TENCENT_APPID : "1111493049",
-                    WECHAT_APPID : "",//微信平台appid
+                    FACEBOOK_APPID : "",
                     app_icon: "@mipmap/logo"
             ]
         }
@@ -91,6 +92,9 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation "com.google.android.material:material:1.2.0"
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
 //    def lifecycle_version = "2.3.0-alpha07"
     def lifecycle_version = "2.2.0"
@@ -206,11 +210,6 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.9.0'
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
     implementation project(':loadsirlibrary')
-//    implementation project(':sharelibrary')
+    api project(':sharelibrary')
 
-    implementation 'cn.jiguang.sdk:jcore:2.1.2'
-    implementation 'cn.jiguang.sdk:jshare:1.8.0'
-    implementation 'cn.jiguang.sdk:jshare-wechatmodel:1.8.0'
-    implementation 'cn.jiguang.sdk:jshare-qqmodel:1.8.0'
-    implementation 'cn.jiguang.sdk:jshare-sinamodel:1.8.0'
 }

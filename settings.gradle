@@ -1,3 +1,5 @@
+include ':jiguang-demo'
+include ':jiguang'
 include ':sharelibrary'
 include ':loadsirlibrary'
 include ':app'

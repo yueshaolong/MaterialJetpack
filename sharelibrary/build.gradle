@@ -29,10 +29,19 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
+    api fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.2.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
+
+//    api 'cn.jiguang.sdk:jcore:2.7.0'
+//    api 'cn.jiguang.sdk:jshare:1.8.0'
+//    api 'cn.jiguang.sdk:jshare-wechatmodel:1.8.0'
+//    api 'cn.jiguang.sdk:jshare-qqmodel:1.8.0'
+//    api 'cn.jiguang.sdk:jshare-sinamodel:1.8.0'
+//    api 'cn.jiguang.sdk:jshare-facebookmodel:1.8.0'
+//    api 'cn.jiguang.sdk:jshare-twittermodel:1.8.0'
+//    implementation 'cn.jiguang.sdk:jshare-jchatpromodel:1.8.0'
 }

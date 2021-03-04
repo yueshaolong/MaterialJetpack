@@ -9,12 +9,12 @@
         android:id="@+id/socialize_image_view"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:padding="5dp"
+        android:padding="0dp"
         android:src="@drawable/jiguang_socialize_menu_default" />
 
     <TextView
         android:id="@+id/socialize_text_view"
-        android:layout_width="63dp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:ellipsize="end"
