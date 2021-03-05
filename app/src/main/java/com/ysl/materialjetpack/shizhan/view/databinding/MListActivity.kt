@@ -1,6 +1,5 @@
 package com.ysl.materialjetpack.shizhan.view.databinding
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -8,8 +7,6 @@ import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ShareCompat
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import cn.jiguang.share.android.api.PlatActionListener
 import cn.jiguang.share.android.api.Platform
@@ -102,7 +99,9 @@ class MListActivity : AppCompatActivity() {
     }
 
     fun showToast(toast: String) {
-        UniversalToast.makeText(this, toast, UniversalToast.LENGTH_SHORT).showWarning()
+        runOnUiThread {
+            UniversalToast.makeText(this, toast, UniversalToast.LENGTH_SHORT).showWarning()
+        }
     }
 
     fun initEvent() {
@@ -216,6 +215,7 @@ class MListActivity : AppCompatActivity() {
         }
 
         override fun onError(platform: Platform, action: Int, errorCode: Int, error: Throwable) {
+            Log.d(TAG, "onError: ----->${Thread.currentThread()}")
             Log.d(TAG, "onError-----> platform=${platform.name} action=$action errorCode=$errorCode error=$error")
             showToast("分享失败")
         }

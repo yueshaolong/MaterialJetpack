@@ -26,6 +26,8 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
+        //在编译时，Jetpack Room 会将数据库的架构信息导出为 JSON 文件（默认exportSchema = true导出架构）。
+        // 要导出架构，需要在 build.gradle 文件中设置 room.schemaLocation 注释处理器属性（设置将json存放的位置）。
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments += ["room.schemaLocation":
