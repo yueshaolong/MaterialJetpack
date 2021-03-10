@@ -28,6 +28,7 @@ class BannerViewModel constructor(application: Application) : BaseViewModel(appl
         }
         MutableLiveData(d)
     }
+
     var banner: MutableLiveData<List<BannerVO>> = MutableLiveData()
 
     fun loadBanner(isActivity: Boolean) {

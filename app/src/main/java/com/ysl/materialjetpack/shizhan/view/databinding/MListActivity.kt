@@ -191,21 +191,28 @@ class MListActivity : AppCompatActivity() {
 
     fun loadShareParams(): ShareParams {
         //这里以分享链接为例
-//        val shareParams = ShareParams()
-//        shareParams.shareType = Platform.SHARE_WEBPAGE
-//        shareParams.title = " 欢迎使用极光社会化组件JShare"
-//        shareParams.text = "JShare SDK支持主流社交平台、帮助开发者轻松实现社会化功能！"
-//        shareParams.url = "https://www.jiguang.cn"
-//        shareParams.imagePath = App.ImagePath
+        val shareParams = ShareParams()
+        shareParams.shareType = Platform.SHARE_WEBPAGE
+        shareParams.title = " 欢迎使用极光社会化组件JShare"
+        shareParams.text = "JShare SDK支持主流社交平台、帮助开发者轻松实现社会化功能！"
+        shareParams.url = "https://www.jiguang.cn"
+        shareParams.imagePath = App.ImagePath
+        shareParams.author = "sad"
+        shareParams.customFlag = arrayOf("sss")
+        shareParams.appName = "demo"
+        shareParams.address = "dfsdf"
+        shareParams.comment = "asd"
+        shareParams.extInfo = "123"
 
-        val params = HashMap<String, Any>()
-        params["shareType"] = Platform.SHARE_WEBPAGE
-        params["title"] = "欢迎使用极光社会化组件JShare"
-        params["text"] = "JShare SDK支持主流社交平台、帮助开发者轻松实现社会化功能！"
-        params["url"] = "https://www.jiguang.cn"
-        params["imagePath"] = App.ImagePath
+//        val params = HashMap<String, Any>()
+//        params["shareType"] = Platform.SHARE_WEBPAGE
+//        params["title"] = "欢迎使用极光社会化组件JShare"
+//        params["text"] = "JShare SDK支持主流社交平台、帮助开发者轻松实现社会化功能！"
+//        params["url"] = "https://www.jiguang.cn"
+//        params["imagePath"] = App.ImagePath
+//        params["author"] = "ysl"
 
-        return ShareParams(params)
+        return shareParams
     }
 
     private val mShareListener: PlatActionListener = object : PlatActionListener {
